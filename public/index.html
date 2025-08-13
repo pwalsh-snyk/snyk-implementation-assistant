@@ -23,14 +23,15 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 16px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 16px;
             height: 100vh;
+            box-sizing: border-box;
         }
 
-        .chat-section {
+        .input-section {
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -39,88 +40,29 @@
             overflow: hidden;
         }
 
-        .chat-header {
+        .section-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             text-align: center;
         }
 
-        .chat-header h1 {
+        .section-header h1 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 8px;
         }
 
-        .chat-header p {
+        .section-header p {
             opacity: 0.9;
             font-size: 14px;
         }
 
-        .chat-messages {
-            flex: 1;
+        .form-container {
             padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
         }
 
-        .message {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
 
-        .message.user {
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .message.assistant .message-avatar {
-            background: #f0f0f0;
-            color: #666;
-        }
-
-        .message-content {
-            background: #f8f9fa;
-            padding: 12px 16px;
-            border-radius: 12px;
-            max-width: 80%;
-            line-height: 1.5;
-        }
-
-        .message.user .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .message.error .message-content {
-            background: #fee;
-            color: #c53030;
-            border: 1px solid #fed7d7;
-        }
-
-        .chat-input {
-            padding: 20px;
-            border-top: 1px solid #e5e7eb;
-            background: white;
-        }
 
         .file-upload-section {
             margin-bottom: 16px;
@@ -348,14 +290,14 @@
             overflow-y: auto;
         }
 
-        .pov-worksheet {
+        .implementation-guide {
             background: #f8f9fa;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
         }
 
-        .pov-worksheet h3 {
+        .implementation-guide h3 {
             color: #333;
             font-size: 18px;
             font-weight: 600;
@@ -398,18 +340,41 @@
         }
 
         .competitive-advantages {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #0369a1;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(3, 105, 161, 0.1);
         }
 
         .competitive-advantages h3 {
             color: #0369a1;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trap-questions {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #d97706;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.1);
+        }
+
+        .trap-questions h3 {
+            color: #92400e;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .advantage-list {
@@ -591,69 +556,227 @@
             display: none;
         }
 
+        .implementation-form {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 2px solid #e9ecef;
+            margin-bottom: 16px;
+            margin-top: 16px;
+        }
+
+        .implementation-form h3 {
+            color: #495057;
+            margin-bottom: 16px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .form-section {
+            margin-bottom: 16px;
+        }
+
+        .form-section label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        .optional {
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        .form-field {
+            width: 100%;
+            max-width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-field:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-field:required:invalid {
+            border-color: #dc3545;
+        }
+
+        .form-field textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        select.form-field {
+            cursor: pointer;
+        }
+
+        .form-section small {
+            display: block;
+            margin-top: 4px;
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .multiple-scm-section {
+            margin-top: 8px;
+            padding: 10px;
+            background: #f1f3f4;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .multiple-scm-section small {
+            margin-top: 4px;
+            color: #5f6368;
+        }
+
+        .multiple-scm-section[style*="display: block"] {
+            display: block !important;
+        }
+
+        .multiple-scm-section.show {
+            display: block !important;
+        }
+
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
                 height: auto;
+                padding: 8px;
+                gap: 8px;
             }
             
             .chat-section,
             .output-section {
-                height: 500px;
+                height: auto;
+                min-height: 400px;
+            }
+
+            .chat-input {
+                max-height: 60vh;
+                padding: 12px;
+                flex-shrink: 1;
+            }
+
+            .chat-messages {
+                min-height: 200px;
+                padding: 16px;
+            }
+
+            .implementation-form {
+                padding: 12px;
+            }
+
+            .form-section {
+                margin-bottom: 12px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Chat Section -->
-        <div class="chat-section">
-            <div class="chat-header">
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="section-header">
                 <h1><i class="fas fa-mountain"></i> Snyk SherpAI</h1>
-                <p>Your AI guide to creating comprehensive POV worksheets and implementation strategies</p>
+                <p>Generate comprehensive Snyk implementation guidance from your technical requirements</p>
             </div>
             
-            <div class="chat-messages" id="chatMessages">
-                <div class="message assistant">
-                    <div class="message-avatar">
-                        <i class="fas fa-mountain"></i>
+            <div class="form-container">
+                <div class="implementation-form">
+                <h3><i class="fas fa-cogs"></i> Implementation Requirements</h3>
+                
+                <div class="form-section">
+                    <label for="scmInput">Source Code Management <span class="required">*</span></label>
+                    <select id="scmInput" class="form-field" required>
+                        <option value="">Select your SCM system(s)</option>
+                        <option value="github">GitHub</option>
+                        <option value="gitlab">GitLab</option>
+                        <option value="bitbucket">Bitbucket</option>
+                        <option value="azure devops">Azure DevOps</option>
+                        <option value="aws codecommit">AWS CodeCommit</option>
+                        <option value="multiple">Multiple SCM Systems</option>
+                    </select>
+                    <div id="multipleScmSection" class="multiple-scm-section" style="display: none;">
+                        <input type="text" id="multipleScmInput" class="form-field" placeholder="e.g., GitHub, GitLab, Bitbucket" style="margin-top: 8px;" name="multipleScm">
+                        <small>List all SCM systems you use (comma-separated)</small>
                     </div>
-                    <div class="message-content">
-                        🏔️ Hello! I'm SherpAI, your Snyk guide. I'll help you create a comprehensive POV worksheet from your discovery notes. Just share: programming languages/tech stack, source code management system (GitHub, GitLab, etc.), and current security practices (even if they're doing nothing). I'll generate a detailed POV worksheet with competitive intelligence and implementation resources.
-                    </div>
+                    <small id="scmHelp">Select your primary source code management system</small>
                 </div>
-            </div>
-            
-            <div class="chat-input">
+
+                <div class="form-section">
+                    <label for="languagesInput">Programming Languages <span class="required">*</span></label>
+                    <input type="text" id="languagesInput" class="form-field" placeholder="e.g., JS, TS, Python, Java, C#, Go, Rust, PHP, Ruby, Kotlin, Swift, Dart... (AI will expand abbreviations)" required>
+                    <small>List the main programming languages - abbreviations like JS, TS, Py are fine!</small>
+                </div>
+
+                <div class="form-section">
+                    <label for="currentStateInput">Current Scan Processes <span class="required">*</span></label>
+                    <textarea id="currentStateInput" class="form-field" rows="4" placeholder="Describe your current security tools and practices (e.g., using Veracode, manual reviews, no security scanning, etc.)" required></textarea>
+                    <small>Tell us about your existing security tools and processes</small>
+                </div>
+
+                <button class="generate-btn" id="generateBtn">
+                    <i class="fas fa-rocket"></i> Generate Implementation Guide
+                </button>
+                
+                <div class="upload-divider" style="margin: 20px 0;">
+                    <span>OR</span>
+                </div>
+
                 <div class="file-upload-section">
                     <div class="upload-options">
                         <label class="file-upload-btn" for="fileInput">
-                            <i class="fas fa-upload"></i> Upload File (.txt, .md)
+                            <i class="fas fa-upload"></i> Upload Tech Notes (.txt, .md)
                         </label>
                         <input type="file" id="fileInput" accept=".txt,.md" style="display: none;">
                         <span class="upload-status" id="uploadStatus"></span>
                     </div>
-                    <div class="google-doc-section">
-                        <div class="google-doc-input">
-                            <input type="url" id="googleDocInput" placeholder="Or paste Google Doc link here..." class="google-doc-field">
-                            <button class="google-doc-btn" id="googleDocBtn">
-                                <i class="fab fa-google"></i> Load Google Doc
-                            </button>
-                        </div>
-                    </div>
-                    <div class="upload-divider">
-                        <span>OR</span>
-                    </div>
                 </div>
-                <div class="input-group">
-                    <textarea 
-                        id="messageInput" 
-                        placeholder="Enter your discovery notes here... Just need: programming languages/tech stack, source code management (GitHub/GitLab/etc), and current security practices (or if they do nothing for security)."
-                        rows="6"
-                    ></textarea>
-                    <button class="send-btn" id="sendBtn">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -661,24 +784,24 @@
         <!-- Output Section -->
         <div class="output-section">
             <div class="output-header">
-                <h2><i class="fas fa-file-alt"></i> POV Worksheet Output</h2>
-                <p>Generated worksheet will appear here after processing your discovery notes</p>
+                <h2><i class="fas fa-file-alt"></i> Implementation Guidance Output</h2>
+                <p>Generated implementation guidance will appear here after processing your technical requirements</p>
             </div>
             
             <div class="output-content" id="outputContent">
-                <div class="pov-worksheet">
-                    <h3>Ready to Generate POV Worksheet</h3>
-                    <p>Enter basic discovery notes to generate a comprehensive POV worksheet. You only need:</p>
+                <div class="implementation-guide">
+                    <h3>Ready to Generate Implementation Guidance</h3>
+                    <p>Enter basic technical requirements to generate comprehensive implementation guidance. You only need:</p>
                     <ul style="margin-left: 20px; margin-top: 8px; color: #666;">
-                        <li><strong>Programming languages/tech stack</strong> (Java, Python, Node.js, etc.)</li>
+                        <li><strong>Programming languages/tech stack</strong> (JavaScript, Python, Java, C#, Go, PHP, Ruby, Swift, Kotlin, etc.)</li>
                         <li><strong>Source code management</strong> (GitHub, GitLab, Bitbucket, etc.)</li>
-                        <li><strong>Current security practices</strong> (tools they use, or if doing nothing)</li>
+                        <li><strong>Current scan processes</strong> (tools they use, or if doing nothing)</li>
                     </ul>
                     <p style="margin-top: 12px; color: #666;">The app will generate:</p>
                     <ul style="margin-left: 20px; margin-top: 8px; color: #666;">
                         <li>Intelligent current vs future state analysis</li>
                         <li>Technology stack analysis</li>
-                        <li>Competitive intelligence and trap questions</li>
+                        <li>Why Snyk insights and key considerations</li>
                         <li>Implementation resources and guides</li>
                         <li>Personal Access Token permissions for SCM integration</li>
                     </ul>
@@ -686,31 +809,48 @@
             </div>
             
             <div class="export-section" id="exportSection" style="display: none;">
-                <h4>Export POV Worksheet</h4>
+                <h4>Export Implementation Guidance</h4>
                 <div class="export-buttons">
                     <button class="export-btn" id="exportGoogleDocBtn">
                         <i class="fab fa-google"></i> Create Google Doc
                     </button>
-                    <button class="export-btn copy" id="copyToClipboardBtn">
-                        <i class="fas fa-copy"></i> Copy to Clipboard
-                    </button>
-                    <button class="export-btn copy" id="downloadTextBtn">
-                        <i class="fas fa-download"></i> Download as Text
-                    </button>
                 </div>
                 <p style="font-size: 12px; color: #666; margin-top: 8px;">
-                    Export your POV worksheet to Google Docs or copy to clipboard for easy sharing and collaboration.
+                    Export your implementation guidance to Google Docs for easy sharing and collaboration.
                 </p>
             </div>
         </div>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io();
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
+        // Check for Google Doc creation success/error in URL
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.has('doc_created')) {
+                const docUrl = decodeURIComponent(urlParams.get('doc_created'));
+                alert('Google Doc created successfully! Opening the document...');
+                window.open(docUrl, '_blank');
+                
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else if (urlParams.has('error')) {
+                const error = urlParams.get('error');
+                let message = 'Failed to create Google Doc.';
+                
+                if (error === 'auth_failed') {
+                    message = 'Google authentication failed. Please try again.';
+                } else if (error === 'no_data') {
+                    message = 'No implementation data found. Please generate guidance first.';
+                }
+                
+                alert(message);
+                
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+
         const outputContent = document.getElementById('outputContent');
         const fileInput = document.getElementById('fileInput');
         const uploadStatus = document.getElementById('uploadStatus');
@@ -718,43 +858,119 @@
         const googleDocBtn = document.getElementById('googleDocBtn');
         const exportSection = document.getElementById('exportSection');
         const exportGoogleDocBtn = document.getElementById('exportGoogleDocBtn');
-        const copyToClipboardBtn = document.getElementById('copyToClipboardBtn');
-        const downloadTextBtn = document.getElementById('downloadTextBtn');
 
-        let conversationHistory = [];
-        let currentPOVData = null;
+        
+        // New form elements
+        const scmInput = document.getElementById('scmInput');
+        const multipleScmSection = document.getElementById('multipleScmSection');
+        const multipleScmInput = document.getElementById('multipleScmInput');
+        const scmHelp = document.getElementById('scmHelp');
+        const languagesInput = document.getElementById('languagesInput');
+        const currentStateInput = document.getElementById('currentStateInput');
 
-        // Handle file upload
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        const generateBtn = document.getElementById('generateBtn');
 
-            uploadFile(file);
+        let currentImplementationData = null;
+
+        // Debug: Check if all elements are found
+        console.log('🔍 Element check:', {
+            scmInput: !!scmInput,
+            languagesInput: !!languagesInput,
+            currentStateInput: !!currentStateInput,
+            generateBtn: !!generateBtn
         });
 
-        // Handle Google Doc link
-        googleDocBtn.addEventListener('click', function() {
-            const docUrl = googleDocInput.value.trim();
-            if (!docUrl) {
-                uploadStatus.textContent = 'Please enter a Google Doc URL';
-                uploadStatus.className = 'upload-status error';
-                return;
+        // Handle file upload - only if element exists
+        if (fileInput) {
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                uploadFile(file);
+            });
+        }
+
+        // Handle Google Doc link - only if elements exist
+        if (googleDocBtn) {
+            googleDocBtn.addEventListener('click', function() {
+                const docUrl = googleDocInput.value.trim();
+                if (!docUrl) {
+                    uploadStatus.textContent = 'Please enter a Google Doc URL';
+                    uploadStatus.className = 'upload-status error';
+                    return;
+                }
+
+                processGoogleDocLink(docUrl);
+            });
+        }
+
+        // Handle export buttons - only if elements exist
+        if (exportGoogleDocBtn) {
+            exportGoogleDocBtn.addEventListener('click', function() {
+                exportToGoogleDoc();
+            });
+        }
+
+
+
+        // Handle SCM dropdown change
+        scmInput.addEventListener('change', function() {
+            console.log('SCM dropdown changed to:', scmInput.value);
+            if (scmInput.value === 'multiple') {
+                console.log('Showing multiple SCM section');
+                multipleScmSection.style.display = 'block';
+                multipleScmSection.classList.add('show');
+                scmHelp.textContent = 'Enter all SCM systems your organization uses';
+                multipleScmInput.required = true;
+                multipleScmInput.focus(); // Focus the input for better UX
+            } else {
+                console.log('Hiding multiple SCM section');
+                multipleScmSection.style.display = 'none';
+                multipleScmSection.classList.remove('show');
+                scmHelp.textContent = 'Select your primary source code management system';
+                multipleScmInput.required = false;
+                multipleScmInput.value = '';
             }
-
-            processGoogleDocLink(docUrl);
         });
 
-        // Handle export buttons
-        exportGoogleDocBtn.addEventListener('click', function() {
-            exportToGoogleDoc();
+        // Initialize the SCM section on page load
+        function initializeScmSection() {
+            console.log('Initializing SCM section. Current value:', scmInput.value);
+            if (scmInput.value === 'multiple') {
+                console.log('Setting up multiple SCM section');
+                multipleScmSection.style.display = 'block';
+                multipleScmSection.classList.add('show');
+                scmHelp.textContent = 'Enter all SCM systems your organization uses';
+                multipleScmInput.required = true;
+            } else {
+                multipleScmSection.style.display = 'none';
+                multipleScmSection.classList.remove('show');
+                scmHelp.textContent = 'Select your primary source code management system';
+                multipleScmInput.required = false;
+                multipleScmInput.value = '';
+            }
+        }
+
+        // Run initialization after DOM is ready
+        setTimeout(initializeScmSection, 100);
+        
+        // Also run on window load
+        window.addEventListener('load', initializeScmSection);
+
+        // Handle form submission
+        generateBtn.addEventListener('click', function() {
+            console.log('🚀 Generate button clicked!');
+            generateImplementationGuide();
         });
 
-        copyToClipboardBtn.addEventListener('click', function() {
-            copyToClipboard();
-        });
-
-        downloadTextBtn.addEventListener('click', function() {
-            downloadAsText();
+        // Handle Enter key in form fields
+        [scmInput, languagesInput, currentStateInput, multipleScmInput].forEach(field => {
+            field.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    generateImplementationGuide();
+                }
+            });
         });
 
         function processGoogleDocLink(url) {
@@ -792,8 +1008,7 @@
             uploadStatus.className = 'upload-status';
             
             // Add message to chat
-            addMessage('user', `📄 Attempting to load Google Doc: ${url}`);
-            addMessage('assistant', 'To load a Google Doc, please:\n1. Make sure the document is publicly accessible, OR\n2. Copy the content from the Google Doc and paste it in the text area below.\n\nFor privacy and security, direct Google Doc access requires additional permissions.');
+            console.log(`📄 Attempting to load Google Doc: ${url}`);
             
             // Clear input and re-enable button
             googleDocInput.value = '';
@@ -823,9 +1038,9 @@
             sendBtn.disabled = true;
 
             const formData = new FormData();
-            formData.append('discoveryFile', file);
+            formData.append('techFile', file);
 
-            fetch('/api/upload-discovery', {
+            fetch('/api/upload-tech', {
                 method: 'POST',
                 body: formData
             })
@@ -846,11 +1061,9 @@
                 uploadStatus.textContent = `Successfully processed ${file.name}`;
                 uploadStatus.className = 'upload-status success';
                 
-                // Add message to chat
-                addMessage('user', `📁 Uploaded discovery notes from: ${file.name}`);
-                addMessage('assistant', 'I\'ve successfully processed your discovery notes file. Here\'s the generated POV worksheet:');
+                console.log(`📁 Uploaded tech notes from: ${file.name}`);
                 
-                // Update output with POV worksheet
+                // Update output with implementation guidance
                 updateOutput(data);
                 
                 // Clear file input
@@ -865,7 +1078,7 @@
                 uploadStatus.textContent = error.message || 'Upload failed';
                 uploadStatus.className = 'upload-status error';
                 
-                addMessage('error', `Error processing file: ${error.message}`);
+                alert(`Error processing file: ${error.message}`);
                 
                 setTimeout(() => {
                     uploadStatus.textContent = '';
@@ -876,140 +1089,47 @@
             });
         }
 
-        // Handle send button click
-        sendBtn.addEventListener('click', function() {
-            sendMessage();
-        });
 
-        // Handle Enter key to send message
-        messageInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            // Add user message to chat
-            addMessage('user', message);
-            
-            // Clear input
-            messageInput.value = '';
-            
-            // Disable send button and show loading
-            sendBtn.disabled = true;
-            sendBtn.innerHTML = '<div class="spinner"></div>Processing...';
-            
-            // Add loading message
-            const loadingMessage = addMessage('assistant', '<div class="loading"><div class="spinner"></div>Processing your discovery notes...</div>');
-
-            // Send message to server
-            socket.emit('send-message', {
-                message: message,
-                conversationHistory: conversationHistory
-            });
-
-            // Add to conversation history
-            conversationHistory.push({ role: 'user', content: message });
-        }
-
-        function addMessage(type, content) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-            avatar.innerHTML = type === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
-            
-            const messageContent = document.createElement('div');
-            messageContent.className = 'message-content';
-            messageContent.innerHTML = content;
-            
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(messageContent);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return messageDiv;
-        }
-
-        // Handle server responses
-        socket.on('receive-message', function(data) {
-            // Remove loading message
-            const loadingMessage = chatMessages.querySelector('.loading');
-            if (loadingMessage) {
-                loadingMessage.parentElement.parentElement.remove();
-            }
-            
-            // Re-enable send button
-            sendBtn.disabled = false;
-            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
-            
-            // Add assistant response
-            addMessage('assistant', data.content);
-            
-            // Add to conversation history
-            conversationHistory.push({ role: 'assistant', content: data.content });
-            
-            // Update output if POV worksheet is provided
-            if (data.povWorksheet) {
-                updateOutput(data.povWorksheet);
-            }
-        });
 
         function exportToGoogleDoc() {
-            if (!currentPOVData) return;
+            if (!currentImplementationData) return;
             
-            const textContent = formatPOVAsText(currentPOVData);
-            const googleDocsUrl = 'https://docs.google.com/document/create';
+            // Disable button and show loading
+            exportGoogleDocBtn.disabled = true;
+            exportGoogleDocBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Google Doc...';
             
-            // Copy to clipboard first
-            navigator.clipboard.writeText(textContent).then(() => {
-                // Open Google Docs in new tab
-                window.open(googleDocsUrl, '_blank');
+            // Call the new API endpoint
+            fetch('/api/create-google-doc', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(currentImplementationData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(`Error: ${data.error}`);
+                    exportGoogleDocBtn.disabled = false;
+                    exportGoogleDocBtn.innerHTML = '<i class="fab fa-google"></i> Create Google Doc';
+                    return;
+                }
                 
-                // Show instructions
-                addMessage('assistant', 'I\'ve copied the POV worksheet to your clipboard and opened Google Docs. Please paste (Ctrl+V or Cmd+V) the content into the new document.');
-            }).catch(() => {
-                addMessage('assistant', 'Please copy the content manually and paste it into a new Google Doc.');
+                // Redirect to OAuth flow
+                window.location.href = data.authUrl;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to create Google Doc. Please try again.');
+                exportGoogleDocBtn.disabled = false;
+                exportGoogleDocBtn.innerHTML = '<i class="fab fa-google"></i> Create Google Doc';
             });
         }
 
-        function copyToClipboard() {
-            if (!currentPOVData) return;
-            
-            const textContent = formatPOVAsText(currentPOVData);
-            navigator.clipboard.writeText(textContent).then(() => {
-                copyToClipboardBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                setTimeout(() => {
-                    copyToClipboardBtn.innerHTML = '<i class="fas fa-copy"></i> Copy to Clipboard';
-                }, 2000);
-            }).catch(() => {
-                addMessage('assistant', 'Failed to copy to clipboard. Please select and copy the content manually.');
-            });
-        }
 
-        function downloadAsText() {
-            if (!currentPOVData) return;
-            
-            const textContent = formatPOVAsText(currentPOVData);
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'snyk-pov-worksheet-sherpai.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
 
-        function formatPOVAsText(data) {
-            let text = 'SNYK POV WORKSHEET - Generated by SherpAI\n';
+        function formatImplementationAsText(data) {
+            let text = 'SNYK IMPLEMENTATION GUIDANCE - Generated by SherpAI\n';
             text += '='.repeat(50) + '\n\n';
             
             if (data.povWorksheet) {
@@ -1028,42 +1148,25 @@
                 text += `IaC: ${Array.isArray(data.povWorksheet.techStack.iacFormats) ? data.povWorksheet.techStack.iacFormats.join(', ') : data.povWorksheet.techStack.iacFormats}\n`;
                 text += `Cloud: ${data.povWorksheet.techStack.cloudProvider}\n\n`;
                 
-                text += 'SOLUTIONS MAP\n';
-                text += '-'.repeat(20) + '\n';
-                data.povWorksheet.solutionsMap.forEach(solution => {
-                    text += `• Outcome: ${solution.outcome}\n`;
-                    text += `  Pathway: ${solution.pathway}\n`;
-                    text += `  Snyk Products: ${solution.snykProducts.join(', ')}\n\n`;
-                });
-                
-                text += 'TIMELINE\n';
-                text += '-'.repeat(20) + '\n';
-                data.povWorksheet.timeline.forEach(item => {
-                    text += `${item.event} (${item.due}) - ${item.status}\n`;
-                    text += `  ${item.agenda}\n\n`;
-                });
-                
-                text += 'SUCCESS CRITERIA\n';
-                text += '-'.repeat(20) + '\n';
-                data.povWorksheet.successCriteria.forEach(criteria => {
-                    text += `• ${criteria.desiredState} (${criteria.priority})\n`;
-                    text += `  ${criteria.capabilities}\n`;
-                    text += `  Status: ${criteria.result}\n\n`;
-                });
+
             }
             
-            if (data.competitiveAdvantages && data.competitiveAdvantages.advantages.length > 0) {
-                text += 'COMPETITIVE ADVANTAGES\n';
+            if (data.competitiveAdvantages && (data.competitiveAdvantages.advantages.length > 0 || data.competitiveAdvantages.generalAdvantages?.length > 0)) {
+                text += 'WHY SNYK\n';
                 text += '-'.repeat(20) + '\n';
-                data.competitiveAdvantages.advantages.forEach(advantage => {
+                const advantages = data.competitiveAdvantages.advantages.length > 0 
+                    ? data.competitiveAdvantages.advantages 
+                    : data.competitiveAdvantages.generalAdvantages;
+                advantages.forEach(advantage => {
                     text += `• ${advantage}\n`;
                 });
                 text += '\n';
             }
             
             if (data.competitiveAdvantages && data.competitiveAdvantages.trapQuestions.length > 0) {
-                text += 'TRAP PLANTING QUESTIONS\n';
+                text += 'KEY CONSIDERATIONS\n';
                 text += '-'.repeat(20) + '\n';
+                text += 'Important questions to consider when implementing application security:\n\n';
                 data.competitiveAdvantages.trapQuestions.forEach(question => {
                     text += `• ${question}\n`;
                 });
@@ -1078,40 +1181,20 @@
                 if (data.implementationGuides.scm && !data.implementationGuides.scm.message) {
                     text += `${data.implementationGuides.scm.name}:\n`;
                     
-                    // Add enterprise implementation guide
-                    if (data.implementationGuides.scm.implementationGuide) {
-                        const guide = data.implementationGuides.scm.implementationGuide;
-                        text += `\n  📋 ${guide.title}:\n`;
-                        text += `  ${guide.overview}\n`;
-                        text += `  Strategy: ${guide.strategy.approach}\n`;
-                        text += `  Timeline: ${guide.timeline.typical_enterprise}\n\n`;
-                        
-                        text += '  Implementation Phases:\n';
-                        guide.phases.forEach((phase, index) => {
-                            text += `    ${index + 1}. ${phase.phase} (${phase.timeline})\n`;
-                            phase.objectives.slice(0, 2).forEach(obj => {
-                                text += `       • ${obj}\n`;
-                            });
-                            text += '\n';
-                        });
-                        
-                        text += '  Success Factors:\n';
-                        guide.successFactors.forEach(factor => {
-                            text += `    • ${factor}\n`;
-                        });
-                        text += `\n  Complete Guide: ${guide.documentationLink}\n\n`;
-                    }
+
                     
                     if (data.implementationGuides.scm.patPermissions) {
-                        text += '  PAT Permissions Required:\n';
+                        text += '\n  🔑 PERSONAL ACCESS TOKEN PERMISSIONS:\n';
+                        text += '  ' + '='.repeat(40) + '\n';
+                        text += '  Required Permissions:\n';
                         data.implementationGuides.scm.patPermissions.required.forEach(perm => {
                             text += `    • ${perm}\n`;
                         });
-                        text += '  PAT Permissions Optional:\n';
+                        text += '\n  Optional Permissions:\n';
                         data.implementationGuides.scm.patPermissions.optional.forEach(perm => {
                             text += `    • ${perm}\n`;
                         });
-                        text += `  Notes: ${data.implementationGuides.scm.patPermissions.notes}\n`;
+                        text += `\n  Important Note: ${data.implementationGuides.scm.patPermissions.notes}\n\n`;
                     }
                     text += '  Documentation:\n';
                     data.implementationGuides.scm.links.forEach(link => {
@@ -1121,11 +1204,34 @@
                 }
             }
             
+            // Add implementation approach
+            text += 'IMPLEMENTATION APPROACH\n';
+            text += '='.repeat(25) + '\n\n';
+            
+            text += 'RECOMMENDED IMPLEMENTATION STRATEGY:\n';
+            text += '-'.repeat(35) + '\n';
+            text += '1. START WITH VISIBILITY\n';
+            text += '   Import repositories and gain security insights without blocking development workflows\n\n';
+            text += '2. ENABLE PREVENTION\n';
+            text += '   Add PR checks and CI/CD integration to prevent new vulnerabilities\n\n';
+            text += '3. ADDRESS BACKLOG\n';
+            text += '   Prioritize and fix existing vulnerabilities through structured triage\n\n';
+            
+            text += 'QUICK START CHECKLIST:\n';
+            text += '-'.repeat(20) + '\n';
+            text += '• Set up SCM integration and import key repositories\n';
+            text += '• Configure organization structure and invite team members\n';
+            text += '• Deploy IDE plugins for developer adoption\n';
+            text += '• Enable automated PR/MR checks for new code\n';
+            text += '• Establish weekly triage process for findings\n\n';
+            
+            text += 'Implementation typically takes 2-4 weeks for most organizations\n\n';
+            
             return text;
         }
 
         function updateOutput(data) {
-            currentPOVData = data;
+            currentImplementationData = data;
             exportSection.style.display = data.qualified ? 'block' : 'none';
             
             if (!data.qualified) {
@@ -1149,8 +1255,8 @@
             }
 
             let outputHTML = `
-                <div class="pov-worksheet">
-                    <h3><i class="fas fa-file-alt"></i> POV Worksheet</h3>
+                <div class="implementation-guide">
+                    <h3><i class="fas fa-file-alt"></i> Implementation Guidance</h3>
                     
                     <div class="worksheet-section">
                         <h4>Executive Summary</h4>
@@ -1171,44 +1277,7 @@
                         </div>
                     </div>
                     
-                    <div class="worksheet-section">
-                        <h4>Solutions Map</h4>
-                        ${data.povWorksheet.solutionsMap.map(solution => `
-                            <div style="margin-bottom: 12px; padding: 12px; background: white; border-radius: 6px;">
-                                <p><strong>Outcome:</strong> ${solution.outcome}</p>
-                                <p><strong>Pathway:</strong> ${solution.pathway}</p>
-                                <p><strong>Snyk Products:</strong> ${solution.snykProducts.join(', ')}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="worksheet-section">
-                        <h4>Timeline</h4>
-                        ${data.povWorksheet.timeline.map(item => `
-                            <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px;">
-                                <p><strong>${item.event}</strong> (${item.due}) - ${item.status}</p>
-                                <p style="font-size: 12px; color: #666;">${item.agenda}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="worksheet-section">
-                        <h4>Success Criteria</h4>
-                        ${data.povWorksheet.successCriteria.map(criteria => `
-                            <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px;">
-                                <p><strong>${criteria.desiredState}</strong> (${criteria.priority})</p>
-                                <p style="font-size: 12px; color: #666;">${criteria.capabilities}</p>
-                                <p style="font-size: 12px; color: #999;">Status: ${criteria.result}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="worksheet-section">
-                        <h4>Onboarding Checklist</h4>
-                        <ol style="margin-left: 20px;">
-                            ${data.povWorksheet.onboardingChecklist.map(item => `<li>${item}</li>`).join('')}
-                        </ol>
-                    </div>
+
                 </div>
             `;
 
@@ -1216,9 +1285,21 @@
             if (data.competitiveAdvantages && data.competitiveAdvantages.advantages.length > 0) {
                 outputHTML += `
                     <div class="competitive-advantages">
-                        <h3><i class="fas fa-trophy"></i> Competitive Advantages</h3>
+                        <h3><i class="fas fa-trophy"></i> Why Snyk</h3>
                         <ul class="advantage-list">
                             ${data.competitiveAdvantages.advantages.map(advantage => `<li>${advantage}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // Add general advantages if no specific competitor advantages
+            else if (data.competitiveAdvantages && data.competitiveAdvantages.generalAdvantages && data.competitiveAdvantages.generalAdvantages.length > 0) {
+                outputHTML += `
+                    <div class="competitive-advantages">
+                        <h3><i class="fas fa-trophy"></i> Why Snyk</h3>
+                        <ul class="advantage-list">
+                            ${data.competitiveAdvantages.generalAdvantages.map(advantage => `<li>${advantage}</li>`).join('')}
                         </ul>
                     </div>
                 `;
@@ -1228,13 +1309,16 @@
             if (data.competitiveAdvantages && data.competitiveAdvantages.trapQuestions.length > 0) {
                 outputHTML += `
                     <div class="trap-questions">
-                        <h3><i class="fas fa-question-circle"></i> Trap Planting Questions</h3>
+                        <h3><i class="fas fa-lightbulb"></i> Key Considerations</h3>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 12px;">Important questions to consider when implementing application security:</p>
                         <ul class="question-list">
                             ${data.competitiveAdvantages.trapQuestions.map(question => `<li>${question}</li>`).join('')}
                         </ul>
                     </div>
                 `;
             }
+
+
 
             // Add implementation resources if available
             if (data.implementationGuides) {
@@ -1246,6 +1330,46 @@
                     </div>
                 `;
             }
+
+            // Add concise implementation guide at the bottom
+            outputHTML += `
+                <div class="implementation-guide">
+                    <h3><i class="fas fa-road"></i> Implementation Approach</h3>
+                    
+                    <div class="implementation-strategy" style="background: #f8f9fa; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <h4 style="margin-bottom: 12px; color: #495057;">Recommended Implementation Strategy</h4>
+                        <div style="display: grid; gap: 12px;">
+                            <div style="padding: 10px; background: white; border-radius: 4px; border-left: 3px solid #0369a1;">
+                                <strong style="color: #0369a1;">1. Start with Visibility</strong>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;">Import repositories and gain security insights without blocking development workflows</p>
+                            </div>
+                            <div style="padding: 10px; background: white; border-radius: 4px; border-left: 3px solid #059669;">
+                                <strong style="color: #059669;">2. Enable Prevention</strong>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;">Add PR checks and CI/CD integration to prevent new vulnerabilities</p>
+                            </div>
+                            <div style="padding: 10px; background: white; border-radius: 4px; border-left: 3px solid #dc2626;">
+                                <strong style="color: #dc2626;">3. Address Backlog</strong>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;">Prioritize and fix existing vulnerabilities through structured triage</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-start" style="background: #f0f9ff; padding: 16px; border-radius: 8px; border-left: 4px solid #0369a1;">
+                        <h4 style="color: #0369a1; margin-bottom: 12px;">Quick Start Checklist</h4>
+                        <ul style="margin: 8px 0 0 20px; font-size: 13px; line-height: 1.6; color: #0369a1;">
+                            <li>Set up SCM integration and import key repositories</li>
+                            <li>Configure organization structure and invite team members</li>
+                            <li>Deploy IDE plugins for developer adoption</li>
+                            <li>Enable automated PR/MR checks for new code</li>
+                            <li>Establish weekly triage process for findings</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 12px; font-size: 12px; color: #666; text-align: center;">
+                        <p>Implementation typically takes 2-4 weeks for most organizations</p>
+                    </div>
+                </div>
+            `;
 
             outputContent.innerHTML = outputHTML;
         }
@@ -1266,18 +1390,27 @@
                                     <h5 style="color: #667eea; margin-bottom: 8px;">${scm.name}</h5>
                                     
                                     ${scm.patPermissions ? `
-                                        <div class="pat-permissions" style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
-                                            <strong>🔑 Personal Access Token Permissions:</strong>
+                                        <div class="pat-permissions" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #d97706; padding: 16px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 4px 8px rgba(217, 119, 6, 0.1);">
+                                            <h5 style="color: #92400e; font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                                🔑 Personal Access Token Permissions
+                                            </h5>
                                             <div style="margin-top: 8px;">
-                                                <strong>Required:</strong>
-                                                <ul style="margin: 4px 0 8px 20px; color: #92400e;">
-                                                    ${scm.patPermissions.required.map(perm => `<li>${perm}</li>`).join('')}
-                                                </ul>
-                                                <strong>Optional:</strong>
-                                                <ul style="margin: 4px 0 8px 20px; color: #92400e;">
-                                                    ${scm.patPermissions.optional.map(perm => `<li>${perm}</li>`).join('')}
-                                                </ul>
-                                                <p style="font-size: 12px; margin-top: 8px; color: #92400e;"><strong>Note:</strong> ${scm.patPermissions.notes}</p>
+                                                <div style="margin-bottom: 12px;">
+                                                    <strong style="color: #92400e; display: block; margin-bottom: 6px;">Required Permissions:</strong>
+                                                    <ul style="margin: 0 0 0 20px; color: #92400e; line-height: 1.6;">
+                                                        ${scm.patPermissions.required.map(perm => `<li style="margin-bottom: 4px;">${perm}</li>`).join('')}
+                                                    </ul>
+                                                </div>
+                                                <div style="margin-bottom: 12px;">
+                                                    <strong style="color: #92400e; display: block; margin-bottom: 6px;">Optional Permissions:</strong>
+                                                    <ul style="margin: 0 0 0 20px; color: #92400e; line-height: 1.6;">
+                                                        ${scm.patPermissions.optional.map(perm => `<li style="margin-bottom: 4px;">${perm}</li>`).join('')}
+                                                    </ul>
+                                                </div>
+                                                <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 6px; border-left: 4px solid #d97706;">
+                                                    <strong style="color: #92400e; display: block; margin-bottom: 6px;">Important Note:</strong>
+                                                    <p style="font-size: 13px; margin: 0; color: #92400e; line-height: 1.5;">${scm.patPermissions.notes}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     ` : ''}
@@ -1300,18 +1433,27 @@
                         ` : `
                             <!-- Single SCM System -->
                             ${guides.scm.patPermissions ? `
-                                <div class="pat-permissions" style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
-                                    <strong>🔑 Personal Access Token Permissions:</strong>
+                                <div class="pat-permissions" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #d97706; padding: 16px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 4px 8px rgba(217, 119, 6, 0.1);">
+                                    <h5 style="color: #92400e; font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                        🔑 Personal Access Token Permissions
+                                    </h5>
                                     <div style="margin-top: 8px;">
-                                        <strong>Required:</strong>
-                                        <ul style="margin: 4px 0 8px 20px; color: #92400e;">
-                                            ${guides.scm.patPermissions.required.map(perm => `<li>${perm}</li>`).join('')}
-                                        </ul>
-                                        <strong>Optional:</strong>
-                                        <ul style="margin: 4px 0 8px 20px; color: #92400e;">
-                                            ${guides.scm.patPermissions.optional.map(perm => `<li>${perm}</li>`).join('')}
-                                        </ul>
-                                        <p style="font-size: 12px; margin-top: 8px; color: #92400e;"><strong>Note:</strong> ${guides.scm.patPermissions.notes}</p>
+                                        <div style="margin-bottom: 12px;">
+                                            <strong style="color: #92400e; display: block; margin-bottom: 6px;">Required Permissions:</strong>
+                                            <ul style="margin: 0 0 0 20px; color: #92400e; line-height: 1.6;">
+                                                ${guides.scm.patPermissions.required.map(perm => `<li style="margin-bottom: 4px;">${perm}</li>`).join('')}
+                                            </ul>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <strong style="color: #92400e; display: block; margin-bottom: 6px;">Optional Permissions:</strong>
+                                            <ul style="margin: 0 0 0 20px; color: #92400e; line-height: 1.6;">
+                                                ${guides.scm.patPermissions.optional.map(perm => `<li style="margin-bottom: 4px;">${perm}</li>`).join('')}
+                                            </ul>
+                                        </div>
+                                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 6px; border-left: 4px solid #d97706;">
+                                            <strong style="color: #92400e; display: block; margin-bottom: 6px;">Important Note:</strong>
+                                            <p style="font-size: 13px; margin: 0; color: #92400e; line-height: 1.5;">${guides.scm.patPermissions.notes}</p>
+                                        </div>
                                     </div>
                                 </div>
                             ` : ''}
@@ -1332,48 +1474,7 @@
                             ` : ''}
                         `}
                         
-                        ${guides.scm.implementationGuide ? `
-                            <div class="implementation-guide" style="background: #f0f9ff; padding: 16px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #0369a1;">
-                                <h5 style="color: #0369a1; margin-bottom: 12px; font-size: 16px;">
-                                    📋 ${guides.scm.implementationGuide.title}
-                                </h5>
-                                <p style="font-size: 14px; color: #0369a1; margin-bottom: 12px;">
-                                    ${guides.scm.implementationGuide.overview}
-                                </p>
-                                <p style="font-size: 12px; margin-bottom: 8px;">
-                                    <strong>Strategy:</strong> ${guides.scm.implementationGuide.strategy.approach}
-                                </p>
-                                <p style="font-size: 12px; margin-bottom: 12px;">
-                                    <strong>Timeline:</strong> ${guides.scm.implementationGuide.timeline.typical_enterprise}
-                                </p>
-                                
-                                <div style="margin-bottom: 12px;">
-                                    <strong style="font-size: 14px;">Implementation Phases:</strong>
-                                    <div style="margin-top: 8px;">
-                                        ${guides.scm.implementationGuide.phases.slice(0, 3).map(phase => `
-                                            <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 4px;">
-                                                <strong style="color: #0369a1;">${phase.phase}</strong> (${phase.timeline})
-                                                <ul style="margin: 4px 0 0 16px; font-size: 12px;">
-                                                    ${phase.objectives.slice(0, 3).map(obj => `<li>${obj}</li>`).join('')}
-                                                </ul>
-                                            </div>
-                                        `).join('')}
-                                        <p style="font-size: 12px; font-style: italic; margin-top: 8px;">
-                                            <a href="${guides.scm.implementationGuide.documentationLink}" target="_blank" style="color: #0369a1;">
-                                                View complete 7-phase implementation guide →
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div style="margin-bottom: 12px;">
-                                    <strong style="font-size: 14px;">Success Factors:</strong>
-                                    <ul style="margin: 4px 0 0 16px; font-size: 12px;">
-                                        ${guides.scm.implementationGuide.successFactors.slice(0, 3).map(factor => `<li>${factor}</li>`).join('')}
-                                    </ul>
-                                </div>
-                            </div>
-                        ` : ''}
+
                     </div>
                 `;
             }
@@ -1435,6 +1536,96 @@
             }
             
             return html;
+        }
+
+        function generateImplementationGuide() {
+            console.log('📋 generateImplementationGuide function called');
+            // Validate required fields
+            let scm = scmInput.value.trim();
+            const languages = languagesInput.value.trim();
+            const currentState = currentStateInput.value.trim();
+
+            // Handle multiple SCM case
+            if (scm === 'multiple') {
+                const multipleScms = multipleScmInput.value.trim();
+                if (!multipleScms) {
+                    alert('⚠️ Please specify which SCM systems you use when "Multiple SCM Systems" is selected.');
+                    return;
+                }
+                scm = multipleScms;
+            }
+
+            if (!scm || !languages || !currentState) {
+                alert('⚠️ Please fill out all required fields (SCM, Programming Languages, and Current Security Practices) to generate your implementation guide.');
+                return;
+            }
+
+            // Disable button and show loading
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+            // Build implementation request
+            const implementationData = {
+                scm: scm,
+                languages: languages,
+                currentState: currentState,
+                additionalContext: ""
+            };
+
+            console.log(`🚀 Generating implementation guide for: ${languages} with ${scm}`);
+
+            // Send to server
+            fetch('/api/generate-implementation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(implementationData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="fas fa-rocket"></i> Generate Implementation Guide';
+
+                if (data.error) {
+                    alert(`❌ Error: ${data.error}`);
+                    return;
+                }
+
+                // Show enhanced inputs if AI processed them
+                if (data.enhancedInputs) {
+                    let enhancementMessage = '🧠 AI processed your inputs:\n\n';
+                    
+                    if (data.enhancedInputs.scm !== scm) {
+                        enhancementMessage += `• SCM: "${scm}" → "${data.enhancedInputs.scm}"\n`;
+                    }
+                    if (data.enhancedInputs.languages !== languages) {
+                        enhancementMessage += `• Languages: "${languages}" → "${data.enhancedInputs.languages}"\n`;
+                    }
+                    if (data.enhancedInputs.currentState !== currentState) {
+                        enhancementMessage += `• Security Practices: Enhanced for clarity\n`;
+                    }
+                    
+                    if (enhancementMessage !== '🧠 AI processed your inputs:\n\n') {
+                        console.log(enhancementMessage);
+                    }
+                }
+
+                console.log('✅ Your customized Snyk implementation guide has been generated!');
+                
+                // Update output
+                if (data.qualified) {
+                    updateOutput(data);
+                } else {
+                    alert(`⚠️ ${data.message}\n\n${data.recommendations.join('\n')}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="fas fa-rocket"></i> Generate Implementation Guide';
+                alert('❌ Failed to generate implementation guide. Please try again.');
+            });
         }
     </script>
 </body>

@@ -189,6 +189,189 @@ class ImplementationResources {
             'Test dependencies',
             'Monitor for vulnerabilities'
           ]
+        },
+        'apex': {
+          name: 'Apex (Salesforce)',
+          links: [
+            'https://docs.snyk.io/snyk-code/language-support/apex',
+            'https://docs.snyk.io/supported-languages/apex'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Salesforce project structure',
+            'Run Snyk Code analysis on Apex files',
+            'Review security findings'
+          ],
+          note: 'Apex is supported by Snyk Code for static analysis of Salesforce applications'
+        },
+        'kotlin': {
+          name: 'Kotlin',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/java',
+            'https://docs.snyk.io/snyk-code/language-support/kotlin'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Gradle or Maven for Kotlin',
+            'Test dependencies and Kotlin code',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'swift': {
+          name: 'Swift',
+          links: [
+            'https://docs.snyk.io/snyk-code/language-support/swift',
+            'https://docs.snyk.io/supported-languages/swift-and-objective-c'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Xcode project',
+            'Run Snyk Code analysis on Swift files',
+            'Review security findings'
+          ]
+        },
+        'objective-c': {
+          name: 'Objective-C',
+          links: [
+            'https://docs.snyk.io/snyk-code/language-support/objective-c',
+            'https://docs.snyk.io/supported-languages/swift-and-objective-c'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Xcode project',
+            'Run Snyk Code analysis on Objective-C files',
+            'Review security findings'
+          ]
+        },
+        'ruby': {
+          name: 'Ruby',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/ruby',
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/ruby/bundler'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Bundler for dependency management',
+            'Test Gemfile dependencies',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'php': {
+          name: 'PHP',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/php',
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/php/composer'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Composer for dependency management',
+            'Test composer.json dependencies',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'rust': {
+          name: 'Rust',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/rust',
+            'https://docs.snyk.io/snyk-code/language-support/rust'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Cargo for dependency management',
+            'Test Cargo.toml dependencies',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'scala': {
+          name: 'Scala',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/scala',
+            'https://docs.snyk.io/snyk-code/language-support/scala'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure SBT or Maven for Scala',
+            'Test dependencies and Scala code',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'c/c++': {
+          name: 'C/C++',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/c-c++',
+            'https://docs.snyk.io/snyk-code/language-support/c-c++'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure build system (CMake, Make, etc.)',
+            'Run Snyk Open Source for unmanaged scanning',
+            'Run Snyk Code for static analysis'
+          ]
+        },
+        'dart': {
+          name: 'Dart/Flutter',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/dart',
+            'https://docs.snyk.io/supported-languages/dart-and-flutter'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Flutter/Dart project',
+            'Test pubspec.yaml dependencies',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'elixir': {
+          name: 'Elixir',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/elixir',
+            'https://docs.snyk.io/supported-languages/elixir'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Mix for dependency management',
+            'Test mix.exs dependencies',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'groovy': {
+          name: 'Groovy',
+          links: [
+            'https://docs.snyk.io/snyk-code/language-support/groovy',
+            'https://docs.snyk.io/supported-languages/groovy'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Gradle for Groovy projects',
+            'Run Snyk Code analysis on Groovy files',
+            'Review security findings'
+          ]
+        },
+        '.net': {
+          name: '.NET',
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/csharp',
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support/csharp/nuget'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure .NET project',
+            'Test NuGet packages',
+            'Monitor for vulnerabilities'
+          ]
+        },
+        'vb.net': {
+          name: 'VB.NET',
+          links: [
+            'https://docs.snyk.io/snyk-code/language-support/vb.net',
+            'https://docs.snyk.io/supported-languages/vb.net'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure VB.NET project',
+            'Run Snyk Code analysis on VB files',
+            'Review security findings'
+          ]
         }
       },
       ide: {
@@ -429,12 +612,80 @@ class ImplementationResources {
     }
 
     const guides = [];
+    
+    // Language mapping to handle variations in naming
+    const languageMapping = {
+      'apex': 'apex',
+      'c#': 'c#',
+      'c/c++': 'c/c++',
+      'dart': 'dart',
+      'elixir': 'elixir', 
+      'go': 'go',
+      'groovy': 'groovy',
+      'java': 'java',
+      'javascript': 'javascript',
+      'kotlin': 'kotlin',
+      '.net': '.net',
+      'objective-c': 'objective-c',
+      'php': 'php',
+      'python': 'python',
+      'ruby': 'ruby',
+      'rust': 'rust',
+      'scala': 'scala',
+      'swift': 'swift',
+      'typescript': 'typescript',
+      'vb.net': 'vb.net'
+    };
+    
     for (const language of languages) {
       const langKey = language.toLowerCase();
-      const langInfo = this.resources.languages[langKey];
+      
+      // First try direct lookup
+      let langInfo = this.resources.languages[langKey];
+      
+      // If not found, try mapped lookup
+      if (!langInfo && languageMapping[langKey]) {
+        langInfo = this.resources.languages[languageMapping[langKey]];
+      }
+      
+      // Handle common variations
+      if (!langInfo) {
+        if (langKey.includes('c++') || langKey.includes('cpp')) {
+          langInfo = this.resources.languages['c/c++'];
+        } else if (langKey.includes('node') || langKey === 'js') {
+          langInfo = this.resources.languages['javascript'];
+        } else if (langKey === 'ts') {
+          langInfo = this.resources.languages['typescript'];
+        } else if (langKey === 'py') {
+          langInfo = this.resources.languages['python'];
+        } else if (langKey.includes('dotnet') || langKey.includes('.net')) {
+          langInfo = this.resources.languages['.net'];
+        } else if (langKey.includes('flutter')) {
+          langInfo = this.resources.languages['dart'];
+        } else if (langKey.includes('salesforce')) {
+          langInfo = this.resources.languages['apex'];
+        }
+      }
       
       if (langInfo) {
         guides.push(langInfo);
+      } else {
+        // Add a fallback guide for unsupported languages
+        guides.push({
+          name: language,
+          message: `Language-specific guide for ${language} not available`,
+          links: [
+            'https://docs.snyk.io/snyk-open-source/language-and-package-manager-support',
+            'https://docs.snyk.io/snyk-code/language-support'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            `Configure ${language} project`,
+            'Run appropriate Snyk scans',
+            'Monitor for vulnerabilities'
+          ],
+          note: `${language} may be supported through general CLI scanning or as part of another language ecosystem`
+        });
       }
     }
 
