@@ -122,6 +122,156 @@
             background: white;
         }
 
+        .file-upload-section {
+            margin-bottom: 16px;
+        }
+
+        .upload-options {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .file-upload-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .upload-status {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .upload-status.success {
+            color: #059669;
+        }
+
+        .upload-status.error {
+            color: #dc2626;
+        }
+
+        .upload-divider {
+            text-align: center;
+            position: relative;
+            margin: 12px 0;
+        }
+
+        .upload-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .upload-divider span {
+            background: white;
+            padding: 0 12px;
+            color: #666;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .google-doc-section {
+            margin-bottom: 12px;
+        }
+
+        .google-doc-input {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .google-doc-field {
+            flex: 1;
+            padding: 10px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .google-doc-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .google-doc-btn {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .google-doc-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .google-doc-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .export-btn.copy {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         .input-group {
             display: flex;
             gap: 12px;
@@ -475,13 +625,33 @@
             </div>
             
             <div class="chat-input">
+                <div class="file-upload-section">
+                    <div class="upload-options">
+                        <label class="file-upload-btn" for="fileInput">
+                            <i class="fas fa-upload"></i> Upload File (.txt, .md)
+                        </label>
+                        <input type="file" id="fileInput" accept=".txt,.md" style="display: none;">
+                        <span class="upload-status" id="uploadStatus"></span>
+                    </div>
+                    <div class="google-doc-section">
+                        <div class="google-doc-input">
+                            <input type="url" id="googleDocInput" placeholder="Or paste Google Doc link here..." class="google-doc-field">
+                            <button class="google-doc-btn" id="googleDocBtn">
+                                <i class="fab fa-google"></i> Load Google Doc
+                            </button>
+                        </div>
+                    </div>
+                    <div class="upload-divider">
+                        <span>OR</span>
+                    </div>
+                </div>
                 <div class="input-group">
                     <textarea 
                         id="messageInput" 
-                        placeholder="Enter your discovery notes here... (minimum 200 characters)"
-                        rows="4"
+                        placeholder="Enter your discovery notes here... Include customer name, current state, challenges, technology stack, stakeholders, and any competitor information."
+                        rows="6"
                     ></textarea>
-                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <button class="send-btn" id="sendBtn">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
@@ -505,8 +675,27 @@
                         <li>Competitive intelligence and trap questions</li>
                         <li>Implementation resources and guides</li>
                         <li>Success criteria and timeline</li>
+                        <li>Personal Access Token permissions for SCM integration</li>
                     </ul>
                 </div>
+            </div>
+            
+            <div class="export-section" id="exportSection" style="display: none;">
+                <h4>Export POV Worksheet</h4>
+                <div class="export-buttons">
+                    <button class="export-btn" id="exportGoogleDocBtn">
+                        <i class="fab fa-google"></i> Create Google Doc
+                    </button>
+                    <button class="export-btn copy" id="copyToClipboardBtn">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
+                    </button>
+                    <button class="export-btn copy" id="downloadTextBtn">
+                        <i class="fas fa-download"></i> Download as Text
+                    </button>
+                </div>
+                <p style="font-size: 12px; color: #666; margin-top: 8px;">
+                    Export your POV worksheet to Google Docs or copy to clipboard for easy sharing and collaboration.
+                </p>
             </div>
         </div>
     </div>
@@ -518,8 +707,174 @@
         const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
         const outputContent = document.getElementById('outputContent');
+        const fileInput = document.getElementById('fileInput');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const googleDocInput = document.getElementById('googleDocInput');
+        const googleDocBtn = document.getElementById('googleDocBtn');
+        const exportSection = document.getElementById('exportSection');
+        const exportGoogleDocBtn = document.getElementById('exportGoogleDocBtn');
+        const copyToClipboardBtn = document.getElementById('copyToClipboardBtn');
+        const downloadTextBtn = document.getElementById('downloadTextBtn');
 
         let conversationHistory = [];
+        let currentPOVData = null;
+
+        // Handle file upload
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            uploadFile(file);
+        });
+
+        // Handle Google Doc link
+        googleDocBtn.addEventListener('click', function() {
+            const docUrl = googleDocInput.value.trim();
+            if (!docUrl) {
+                uploadStatus.textContent = 'Please enter a Google Doc URL';
+                uploadStatus.className = 'upload-status error';
+                return;
+            }
+
+            processGoogleDocLink(docUrl);
+        });
+
+        // Handle export buttons
+        exportGoogleDocBtn.addEventListener('click', function() {
+            exportToGoogleDoc();
+        });
+
+        copyToClipboardBtn.addEventListener('click', function() {
+            copyToClipboard();
+        });
+
+        downloadTextBtn.addEventListener('click', function() {
+            downloadAsText();
+        });
+
+        function processGoogleDocLink(url) {
+            uploadStatus.textContent = 'Processing Google Doc link...';
+            uploadStatus.className = 'upload-status';
+            googleDocBtn.disabled = true;
+
+            // Extract doc ID from URL and convert to plain text export URL
+            let docId = '';
+            const patterns = [
+                /\/document\/d\/([a-zA-Z0-9-_]+)/,
+                /\/d\/([a-zA-Z0-9-_]+)/,
+                /id=([a-zA-Z0-9-_]+)/
+            ];
+
+            for (const pattern of patterns) {
+                const match = url.match(pattern);
+                if (match) {
+                    docId = match[1];
+                    break;
+                }
+            }
+
+            if (!docId) {
+                uploadStatus.textContent = 'Invalid Google Doc URL. Please check the link.';
+                uploadStatus.className = 'upload-status error';
+                googleDocBtn.disabled = false;
+                return;
+            }
+
+            // Convert to plain text export URL
+            const exportUrl = `https://docs.google.com/document/d/${docId}/export?format=txt`;
+            
+            uploadStatus.textContent = 'Note: You may need to make the document public or copy the content manually.';
+            uploadStatus.className = 'upload-status';
+            
+            // Add message to chat
+            addMessage('user', `📄 Attempting to load Google Doc: ${url}`);
+            addMessage('assistant', 'To load a Google Doc, please:\n1. Make sure the document is publicly accessible, OR\n2. Copy the content from the Google Doc and paste it in the text area below.\n\nFor privacy and security, direct Google Doc access requires additional permissions.');
+            
+            // Clear input and re-enable button
+            googleDocInput.value = '';
+            googleDocBtn.disabled = false;
+            
+            setTimeout(() => {
+                uploadStatus.textContent = '';
+            }, 5000);
+        }
+
+        function uploadFile(file) {
+            // Validate file type
+            const allowedExtensions = ['.txt', '.md'];
+            const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+            
+            console.log('File type:', file.type, 'Extension:', fileExtension);
+            
+            if (!allowedExtensions.includes(fileExtension)) {
+                uploadStatus.textContent = 'Please upload a .txt or .md file';
+                uploadStatus.className = 'upload-status error';
+                return;
+            }
+
+            // Show upload progress
+            uploadStatus.textContent = 'Uploading and processing...';
+            uploadStatus.className = 'upload-status';
+            sendBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('discoveryFile', file);
+
+            fetch('/api/upload-discovery', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Success - show the result
+                uploadStatus.textContent = `Successfully processed ${file.name}`;
+                uploadStatus.className = 'upload-status success';
+                
+                // Add message to chat
+                addMessage('user', `📁 Uploaded discovery notes from: ${file.name}`);
+                addMessage('assistant', 'I\'ve successfully processed your discovery notes file. Here\'s the generated POV worksheet:');
+                
+                // Update output with POV worksheet
+                updateOutput(data);
+                
+                // Clear file input
+                fileInput.value = '';
+                
+                setTimeout(() => {
+                    uploadStatus.textContent = '';
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                uploadStatus.textContent = error.message || 'Upload failed';
+                uploadStatus.className = 'upload-status error';
+                
+                addMessage('error', `Error processing file: ${error.message}`);
+                
+                setTimeout(() => {
+                    uploadStatus.textContent = '';
+                }, 5000);
+            })
+            .finally(() => {
+                sendBtn.disabled = false;
+            });
+        }
+
+        // Handle send button click
+        sendBtn.addEventListener('click', function() {
+            sendMessage();
+        });
 
         // Handle Enter key to send message
         messageInput.addEventListener('keydown', function(e) {
@@ -601,7 +956,148 @@
             }
         });
 
+        function exportToGoogleDoc() {
+            if (!currentPOVData) return;
+            
+            const textContent = formatPOVAsText(currentPOVData);
+            const googleDocsUrl = 'https://docs.google.com/document/create';
+            
+            // Copy to clipboard first
+            navigator.clipboard.writeText(textContent).then(() => {
+                // Open Google Docs in new tab
+                window.open(googleDocsUrl, '_blank');
+                
+                // Show instructions
+                addMessage('assistant', 'I\'ve copied the POV worksheet to your clipboard and opened Google Docs. Please paste (Ctrl+V or Cmd+V) the content into the new document.');
+            }).catch(() => {
+                addMessage('assistant', 'Please copy the content manually and paste it into a new Google Doc.');
+            });
+        }
+
+        function copyToClipboard() {
+            if (!currentPOVData) return;
+            
+            const textContent = formatPOVAsText(currentPOVData);
+            navigator.clipboard.writeText(textContent).then(() => {
+                copyToClipboardBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    copyToClipboardBtn.innerHTML = '<i class="fas fa-copy"></i> Copy to Clipboard';
+                }, 2000);
+            }).catch(() => {
+                addMessage('assistant', 'Failed to copy to clipboard. Please select and copy the content manually.');
+            });
+        }
+
+        function downloadAsText() {
+            if (!currentPOVData) return;
+            
+            const textContent = formatPOVAsText(currentPOVData);
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'snyk-pov-worksheet.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function formatPOVAsText(data) {
+            let text = 'SNYK POV WORKSHEET\n';
+            text += '='.repeat(50) + '\n\n';
+            
+            if (data.povWorksheet) {
+                text += 'EXECUTIVE SUMMARY\n';
+                text += '-'.repeat(20) + '\n';
+                text += `Current State: ${data.povWorksheet.executiveSummary.currentState}\n`;
+                text += `Future State: ${data.povWorksheet.executiveSummary.futureState}\n\n`;
+                
+                text += 'TECHNOLOGY STACK\n';
+                text += '-'.repeat(20) + '\n';
+                text += `SCM: ${data.povWorksheet.techStack.sourceCodeManagement}\n`;
+                text += `Languages: ${Array.isArray(data.povWorksheet.techStack.languages) ? data.povWorksheet.techStack.languages.join(', ') : data.povWorksheet.techStack.languages}\n`;
+                text += `IDE: ${data.povWorksheet.techStack.ide}\n`;
+                text += `CI/CD: ${data.povWorksheet.techStack.cicd}\n`;
+                text += `Container Registry: ${data.povWorksheet.techStack.containerRegistry}\n`;
+                text += `IaC: ${Array.isArray(data.povWorksheet.techStack.iacFormats) ? data.povWorksheet.techStack.iacFormats.join(', ') : data.povWorksheet.techStack.iacFormats}\n`;
+                text += `Cloud: ${data.povWorksheet.techStack.cloudProvider}\n\n`;
+                
+                text += 'SOLUTIONS MAP\n';
+                text += '-'.repeat(20) + '\n';
+                data.povWorksheet.solutionsMap.forEach(solution => {
+                    text += `• Outcome: ${solution.outcome}\n`;
+                    text += `  Pathway: ${solution.pathway}\n`;
+                    text += `  Snyk Products: ${solution.snykProducts.join(', ')}\n\n`;
+                });
+                
+                text += 'TIMELINE\n';
+                text += '-'.repeat(20) + '\n';
+                data.povWorksheet.timeline.forEach(item => {
+                    text += `${item.event} (${item.due}) - ${item.status}\n`;
+                    text += `  ${item.agenda}\n\n`;
+                });
+                
+                text += 'SUCCESS CRITERIA\n';
+                text += '-'.repeat(20) + '\n';
+                data.povWorksheet.successCriteria.forEach(criteria => {
+                    text += `• ${criteria.desiredState} (${criteria.priority})\n`;
+                    text += `  ${criteria.capabilities}\n`;
+                    text += `  Status: ${criteria.result}\n\n`;
+                });
+            }
+            
+            if (data.competitiveAdvantages && data.competitiveAdvantages.advantages.length > 0) {
+                text += 'COMPETITIVE ADVANTAGES\n';
+                text += '-'.repeat(20) + '\n';
+                data.competitiveAdvantages.advantages.forEach(advantage => {
+                    text += `• ${advantage}\n`;
+                });
+                text += '\n';
+            }
+            
+            if (data.competitiveAdvantages && data.competitiveAdvantages.trapQuestions.length > 0) {
+                text += 'TRAP PLANTING QUESTIONS\n';
+                text += '-'.repeat(20) + '\n';
+                data.competitiveAdvantages.trapQuestions.forEach(question => {
+                    text += `• ${question}\n`;
+                });
+                text += '\n';
+            }
+            
+            if (data.implementationGuides) {
+                text += 'IMPLEMENTATION RESOURCES\n';
+                text += '-'.repeat(20) + '\n';
+                
+                // Add implementation details
+                if (data.implementationGuides.scm && !data.implementationGuides.scm.message) {
+                    text += `${data.implementationGuides.scm.name}:\n`;
+                    if (data.implementationGuides.scm.patPermissions) {
+                        text += '  PAT Permissions Required:\n';
+                        data.implementationGuides.scm.patPermissions.required.forEach(perm => {
+                            text += `    • ${perm}\n`;
+                        });
+                        text += '  PAT Permissions Optional:\n';
+                        data.implementationGuides.scm.patPermissions.optional.forEach(perm => {
+                            text += `    • ${perm}\n`;
+                        });
+                        text += `  Notes: ${data.implementationGuides.scm.patPermissions.notes}\n`;
+                    }
+                    text += '  Documentation:\n';
+                    data.implementationGuides.scm.links.forEach(link => {
+                        text += `    • ${link}\n`;
+                    });
+                    text += '\n';
+                }
+            }
+            
+            return text;
+        }
+
         function updateOutput(data) {
+            currentPOVData = data;
+            exportSection.style.display = data.qualified ? 'block' : 'none';
+            
             if (!data.qualified) {
                 outputContent.innerHTML = `
                     <div class="qualification-warning">
@@ -732,6 +1228,22 @@
                 html += `
                     <div class="resource-section">
                         <h4>${guides.scm.name}</h4>
+                        ${guides.scm.patPermissions ? `
+                            <div class="pat-permissions" style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                                <strong>🔑 Personal Access Token Permissions:</strong>
+                                <div style="margin-top: 8px;">
+                                    <strong>Required:</strong>
+                                    <ul style="margin: 4px 0 8px 20px; color: #92400e;">
+                                        ${guides.scm.patPermissions.required.map(perm => `<li>${perm}</li>`).join('')}
+                                    </ul>
+                                    <strong>Optional:</strong>
+                                    <ul style="margin: 4px 0 8px 20px; color: #92400e;">
+                                        ${guides.scm.patPermissions.optional.map(perm => `<li>${perm}</li>`).join('')}
+                                    </ul>
+                                    <p style="font-size: 12px; margin-top: 8px; color: #92400e;"><strong>Note:</strong> ${guides.scm.patPermissions.notes}</p>
+                                </div>
+                            </div>
+                        ` : ''}
                         <ul class="resource-links">
                             ${guides.scm.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
                         </ul>

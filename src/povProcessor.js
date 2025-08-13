@@ -4,7 +4,7 @@ const implementationResources = require('./implementationResources');
 class POVProcessor {
   constructor() {
     this.qualificationCriteria = {
-      minDiscoveryLength: 200,
+      minDiscoveryLength: 50,
       requiredFields: [
         'currentState',
         'challenges',
@@ -88,7 +88,7 @@ class POVProcessor {
     if (discoveryNotes.length < this.qualificationCriteria.minDiscoveryLength) {
       result.qualified = false;
       result.message = 'Insufficient discovery information provided.';
-      result.recommendations.push('Please provide more detailed discovery notes (at least 200 characters)');
+      result.recommendations.push('Please provide more detailed discovery notes');
     }
 
     // Check for required information

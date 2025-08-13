@@ -14,7 +14,19 @@ class ImplementationResources {
             'Configure repository access',
             'Set up GitHub Actions workflow',
             'Configure PR checks'
-          ]
+          ],
+          patPermissions: {
+            required: [
+              'repo (Full control of private repositories)',
+              'admin:repo_hook (Read and write repository hooks)',
+              'admin:org_hook (Read and write organization hooks)'
+            ],
+            optional: [
+              'user:email (Access user email addresses)',
+              'read:org (Read org and team membership, read org projects)'
+            ],
+            notes: 'For GitHub Enterprise, ensure the PAT has the same permissions. For GitHub.com, the Snyk GitHub App is recommended over PAT.'
+          }
         },
         'gitlab': {
           name: 'GitLab Integration',
@@ -27,7 +39,19 @@ class ImplementationResources {
             'Configure repository access',
             'Set up GitLab CI/CD pipeline',
             'Configure merge request checks'
-          ]
+          ],
+          patPermissions: {
+            required: [
+              'api (Complete read/write access to the API)',
+              'read_repository (Read access to repository)',
+              'write_repository (Write access to repository)'
+            ],
+            optional: [
+              'read_user (Read user information)',
+              'read_registry (Read container registry images)'
+            ],
+            notes: 'GitLab Personal Access Token must be created by a user with sufficient permissions to access the repositories you want to monitor.'
+          }
         },
         'bitbucket': {
           name: 'Bitbucket Integration',
@@ -40,7 +64,21 @@ class ImplementationResources {
             'Configure repository access',
             'Set up Bitbucket Pipelines',
             'Configure PR checks'
-          ]
+          ],
+          patPermissions: {
+            required: [
+              'Repositories: Read',
+              'Repositories: Write',
+              'Pull requests: Read',
+              'Pull requests: Write'
+            ],
+            optional: [
+              'Account: Read',
+              'Team membership: Read',
+              'Webhooks: Read and write'
+            ],
+            notes: 'Bitbucket App Password must be created with sufficient permissions. For Bitbucket Server, use Personal Access Token.'
+          }
         },
         'azure devops': {
           name: 'Azure DevOps Integration',
@@ -53,7 +91,21 @@ class ImplementationResources {
             'Set up Azure Pipelines',
             'Configure PR policies',
             'Set up build validation'
-          ]
+          ],
+          patPermissions: {
+            required: [
+              'Code (read & write)',
+              'Build (read & execute)',
+              'Project and team (read)',
+              'Pull Request (read & write)'
+            ],
+            optional: [
+              'Identity (read)',
+              'User profile (read)',
+              'Work items (read & write)'
+            ],
+            notes: 'Azure DevOps Personal Access Token must be created with appropriate scopes. Ensure the token has access to all projects and repositories you want to monitor.'
+          }
         }
       },
       languages: {
