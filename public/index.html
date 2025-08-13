@@ -27,7 +27,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-            height: 100vh;
+            min-height: 100vh;
             box-sizing: border-box;
         }
 
@@ -37,7 +37,8 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-y: auto;
+            max-height: 100vh;
         }
 
         .section-header {
@@ -60,6 +61,8 @@
 
         .form-container {
             padding: 20px;
+            flex: 1;
+            overflow-y: auto;
         }
 
 
@@ -760,6 +763,53 @@
                     <small>Tell us about your existing security tools and processes</small>
                 </div>
 
+                <!-- Optional Tech Stack Details -->
+                <div class="optional-section" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                    <h4 style="margin-bottom: 16px; color: #374151; font-size: 14px; font-weight: 600;">
+                        <i class="fas fa-cog" style="margin-right: 8px; color: #6b7280;"></i>
+                        Optional Tech Stack Details
+                        <span style="font-weight: 400; color: #6b7280; font-size: 12px;">(Fill out any that apply)</span>
+                    </h4>
+
+                    <div class="form-section">
+                        <label for="ideInput">IDE/Editor</label>
+                        <input type="text" id="ideInput" class="form-field" placeholder="e.g., VS Code, IntelliJ, Eclipse, Vim">
+                        <small>Integrated Development Environment or code editor</small>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="cicdInput">CI/CD Platform</label>
+                        <input type="text" id="cicdInput" class="form-field" placeholder="e.g., Jenkins, GitHub Actions, GitLab CI, Azure Pipelines, CircleCI">
+                        <small>Continuous Integration/Continuous Deployment platform</small>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="containerRegistryInput">Container Registry</label>
+                        <input type="text" id="containerRegistryInput" class="form-field" placeholder="e.g., Docker Hub, ECR, ACR, GCR, Artifactory">
+                        <small>Container image registry for Docker images</small>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="iacInput">Infrastructure as Code (IaC)</label>
+                        <input type="text" id="iacInput" class="form-field" placeholder="e.g., Terraform, CloudFormation, ARM, Kubernetes, Helm">
+                        <small>Infrastructure provisioning and configuration tools</small>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="cloudProviderInput">Cloud Provider</label>
+                        <select id="cloudProviderInput" class="form-field">
+                            <option value="">Select cloud provider (optional)</option>
+                            <option value="aws">Amazon Web Services (AWS)</option>
+                            <option value="azure">Microsoft Azure</option>
+                            <option value="gcp">Google Cloud Platform (GCP)</option>
+                            <option value="multi-cloud">Multi-cloud</option>
+                            <option value="on-premises">On-premises</option>
+                            <option value="hybrid">Hybrid cloud</option>
+                        </select>
+                        <small>Primary cloud platform or deployment model</small>
+                    </div>
+                </div>
+
                 <button class="generate-btn" id="generateBtn">
                     <i class="fas fa-rocket"></i> Generate Implementation Guide
                 </button>
@@ -867,6 +917,13 @@
         const scmHelp = document.getElementById('scmHelp');
         const languagesInput = document.getElementById('languagesInput');
         const currentStateInput = document.getElementById('currentStateInput');
+        
+        // Optional tech stack fields
+        const ideInput = document.getElementById('ideInput');
+        const cicdInput = document.getElementById('cicdInput');
+        const containerRegistryInput = document.getElementById('containerRegistryInput');
+        const iacInput = document.getElementById('iacInput');
+        const cloudProviderInput = document.getElementById('cloudProviderInput');
 
         const generateBtn = document.getElementById('generateBtn');
 
@@ -964,13 +1021,15 @@
         });
 
         // Handle Enter key in form fields
-        [scmInput, languagesInput, currentStateInput, multipleScmInput].forEach(field => {
-            field.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    generateImplementationGuide();
-                }
-            });
+        [scmInput, languagesInput, currentStateInput, multipleScmInput, ideInput, cicdInput, containerRegistryInput, iacInput].forEach(field => {
+            if (field) {
+                field.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        generateImplementationGuide();
+                    }
+                });
+            }
         });
 
         function processGoogleDocLink(url) {
@@ -1534,6 +1593,59 @@
                     </div>
                 `;
             }
+
+            // Snyk Broker Guides (for on-premises deployments)
+            if (guides.broker) {
+                html += `
+                    <div class="resource-section" style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); border: 2px solid #00acc1; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: #00838f; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            🔗 ${guides.broker.name}
+                        </h4>
+                        
+                        <div style="margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.7); border-radius: 6px;">
+                            <p style="margin: 0; color: #00838f; font-weight: 500;">${guides.broker.description}</p>
+                            <div style="margin-top: 8px; font-size: 13px; color: #00696e;">
+                                <strong>Type:</strong> ${guides.broker.brokerType} | <strong>Status:</strong> ${guides.broker.status}
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 16px;">
+                            <h5 style="color: #00838f; margin-bottom: 8px;">Key Benefits:</h5>
+                            <ul style="margin: 0 0 0 20px; color: #00696e; line-height: 1.6;">
+                                ${guides.broker.overview.benefits.map(benefit => `<li style="margin-bottom: 4px;">${benefit}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div style="margin-bottom: 16px;">
+                            <h5 style="color: #00838f; margin-bottom: 8px;">Prerequisites:</h5>
+                            <ul style="margin: 0 0 0 20px; color: #00696e; line-height: 1.6;">
+                                ${guides.broker.prerequisites.map(prereq => `<li style="margin-bottom: 4px;">${prereq}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div style="margin-bottom: 16px;">
+                            <h5 style="color: #00838f; margin-bottom: 8px;">Documentation & Resources:</h5>
+                            <ul class="resource-links">
+                                ${guides.broker.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="setup-steps">
+                            <strong style="color: #00838f;">Implementation Steps:</strong>
+                            <ol style="margin-top: 8px;">
+                                ${guides.broker.setupSteps.map(step => `<li style="margin-bottom: 6px; color: #00696e;">${step}</li>`).join('')}
+                            </ol>
+                        </div>
+
+                        <div style="margin-top: 16px; padding: 12px; background: rgba(0, 131, 143, 0.1); border-radius: 6px; border-left: 4px solid #00acc1;">
+                            <strong style="color: #00838f; display: block; margin-bottom: 6px;">Supported Integrations:</strong>
+                            <div style="font-size: 13px; color: #00696e; line-height: 1.5;">
+                                ${guides.broker.supportedIntegrations.join(' • ')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
             
             return html;
         }
@@ -1564,12 +1676,25 @@
             generateBtn.disabled = true;
             generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
+            // Collect optional tech stack values
+            const ide = ideInput ? ideInput.value.trim() : '';
+            const cicd = cicdInput ? cicdInput.value.trim() : '';
+            const containerRegistry = containerRegistryInput ? containerRegistryInput.value.trim() : '';
+            const iac = iacInput ? iacInput.value.trim() : '';
+            const cloudProvider = cloudProviderInput ? cloudProviderInput.value.trim() : '';
+
             // Build implementation request
             const implementationData = {
                 scm: scm,
                 languages: languages,
                 currentState: currentState,
-                additionalContext: ""
+                additionalContext: "",
+                // Optional tech stack details
+                ide: ide,
+                cicd: cicd,
+                containerRegistry: containerRegistry,
+                iac: iac,
+                cloudProvider: cloudProvider
             };
 
             console.log(`🚀 Generating implementation guide for: ${languages} with ${scm}`);

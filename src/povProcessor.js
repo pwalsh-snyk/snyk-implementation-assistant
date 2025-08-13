@@ -12,7 +12,7 @@ class POVProcessor {
     };
   }
 
-  async processDiscoveryNotes(discoveryNotes) {
+  async processDiscoveryNotes(discoveryNotes, enhancedInputs = null) {
     try {
       // Check if we have enough information to qualify the opportunity
       const qualificationResult = this.qualifyOpportunity(discoveryNotes);
@@ -27,7 +27,7 @@ class POVProcessor {
       }
 
       // Extract key information from discovery notes
-      const extractedInfo = this.extractInformation(discoveryNotes);
+      const extractedInfo = this.extractInformation(discoveryNotes, enhancedInputs);
       
       // Generate POV worksheet
       const povWorksheet = this.generatePOVWorksheet(extractedInfo);
@@ -105,7 +105,11 @@ class POVProcessor {
     ].some(lang => 
       discoveryNotes.toLowerCase().includes(lang)
     );
-    const hasSCM = ['github', 'gitlab', 'bitbucket', 'azure devops', 'aws codecommit', 'git'].some(scm => 
+    const hasSCM = [
+      'github', 'gh', 'gitlab', 'gl', 'bitbucket', 'bb',
+      'azure devops', 'azure-devops', 'azure repos', 'azure-repos', 'ado', 'azdo', 'tfs', 'vsts',
+      'aws codecommit', 'codecommit', 'git'
+    ].some(scm => 
       discoveryNotes.toLowerCase().includes(scm)
     );
     
@@ -136,12 +140,12 @@ class POVProcessor {
     return result;
   }
 
-  extractInformation(discoveryNotes) {
+  extractInformation(discoveryNotes, enhancedInputs = null) {
     const info = {
       customerName: this.extractCustomerName(discoveryNotes),
       currentState: this.extractCurrentState(discoveryNotes),
       challenges: this.extractChallenges(discoveryNotes),
-      techStack: this.extractTechStack(discoveryNotes),
+      techStack: this.extractTechStack(discoveryNotes, enhancedInputs),
       stakeholders: this.extractStakeholders(discoveryNotes),
       competitors: this.extractCompetitors(discoveryNotes),
       timeline: this.extractTimeline(discoveryNotes),
@@ -270,7 +274,7 @@ class POVProcessor {
     return challenges.length > 0 ? challenges : ['Challenges to be identified'];
   }
 
-  extractTechStack(notes) {
+  extractTechStack(notes, enhancedInputs = null) {
     const techStack = {
       sourceCodeManagement: this.extractSCMTool(notes),
       languages: this.extractLanguages(notes),
@@ -281,16 +285,63 @@ class POVProcessor {
       cloudProvider: this.extractCloudProvider(notes)
     };
     
+    // Override with enhanced inputs when available - prioritize form inputs over extracted values
+    if (enhancedInputs) {
+      if (enhancedInputs.scm && enhancedInputs.scm !== 'SCM tool TBD') {
+        // Handle comma-separated SCMs by converting to array
+        if (enhancedInputs.scm.includes(',')) {
+          techStack.sourceCodeManagement = enhancedInputs.scm.split(',').map(scm => scm.trim());
+        } else {
+          techStack.sourceCodeManagement = enhancedInputs.scm;
+        }
+      }
+      if (enhancedInputs.languages && enhancedInputs.languages !== 'Languages TBD') {
+        techStack.languages = enhancedInputs.languages.split(',').map(lang => lang.trim());
+      }
+      if (enhancedInputs.ide && enhancedInputs.ide !== 'IDE TBD' && enhancedInputs.ide.trim() !== '') {
+        techStack.ide = enhancedInputs.ide;
+      }
+      if (enhancedInputs.cicd && enhancedInputs.cicd !== 'CI/CD TBD' && enhancedInputs.cicd.trim() !== '') {
+        techStack.cicd = enhancedInputs.cicd;
+      }
+      if (enhancedInputs.containerRegistry && enhancedInputs.containerRegistry !== 'Container Registry TBD' && enhancedInputs.containerRegistry.trim() !== '') {
+        techStack.containerRegistry = enhancedInputs.containerRegistry;
+      }
+      if (enhancedInputs.iac && enhancedInputs.iac !== 'IaC formats TBD' && enhancedInputs.iac.trim() !== '') {
+        techStack.iacFormats = enhancedInputs.iac.split(',').map(format => format.trim());
+      }
+      // Always use enhanced cloudProvider if provided
+      if (enhancedInputs.cloudProvider && enhancedInputs.cloudProvider.trim() !== '') {
+        techStack.cloudProvider = enhancedInputs.cloudProvider;
+      }
+    }
+    
     return techStack;
   }
 
   extractSCMTool(notes) {
-    const scmTools = ['github', 'gitlab', 'bitbucket', 'azure devops', 'aws codecommit'];
+    const lowerNotes = notes.toLowerCase();
     const foundTools = [];
     
-    for (const tool of scmTools) {
-      if (notes.toLowerCase().includes(tool)) {
-        foundTools.push(tool);
+    // Define SCM patterns with variations
+    const scmPatterns = {
+      'github': ['github', 'gh'],
+      'gitlab': ['gitlab', 'gl'],
+      'bitbucket': ['bitbucket', 'bb'],
+      'azure devops': [
+        'azure devops', 'azure-devops', 'azuredevops',
+        'azure repos', 'azure-repos', 'azurerepos', 
+        'ado', 'azdo', 'tfs', 'vsts', 
+        'team foundation', 'visual studio team services'
+      ],
+      'aws codecommit': ['aws codecommit', 'codecommit']
+    };
+    
+    // Check each SCM pattern
+    for (const [scmKey, patterns] of Object.entries(scmPatterns)) {
+      const hasMatch = patterns.some(pattern => lowerNotes.includes(pattern));
+      if (hasMatch && !foundTools.includes(scmKey)) {
+        foundTools.push(scmKey);
       }
     }
     
@@ -405,9 +456,18 @@ class POVProcessor {
   }
 
   extractCloudProvider(notes) {
-    const providers = ['aws', 'azure', 'gcp', 'google cloud'];
+    const lowerNotes = notes.toLowerCase();
+    
+    // Check for on-premises first
+    if (lowerNotes.includes('on-premises') || lowerNotes.includes('on-prem') || 
+        lowerNotes.includes('onpremises') || lowerNotes.includes('onprem')) {
+      return 'On-premises';
+    }
+    
+    // Check for cloud providers
+    const providers = ['aws', 'amazon web services', 'azure', 'microsoft azure', 'gcp', 'google cloud', 'multi-cloud', 'hybrid'];
     for (const provider of providers) {
-      if (notes.toLowerCase().includes(provider)) {
+      if (lowerNotes.includes(provider)) {
         return provider;
       }
     }

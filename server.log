@@ -1,0 +1,90 @@
+Snyk SherpAI running on port 3000
+Open http://localhost:3000 to access the application
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github, gitlab',
+  languages: 'java, python',
+  currentState: 'manual reviews',
+  ide: undefined,
+  cicd: undefined,
+  containerRegistry: undefined,
+  iac: undefined,
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'github, gitlab',
+  languages: 'Java, Python',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: '',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github, gitlab',
+  languages: 'java, python',
+  currentState: 'manual reviews',
+  ide: undefined,
+  cicd: undefined,
+  containerRegistry: undefined,
+  iac: undefined,
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'github, gitlab',
+  languages: 'Java, Python',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: '',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github, gitlab',
+  languages: 'java, python',
+  currentState: 'manual reviews',
+  ide: undefined,
+  cicd: undefined,
+  containerRegistry: undefined,
+  iac: undefined,
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'github, gitlab',
+  languages: 'Java, Python',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: '',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github, bitbucket',
+  languages: 'java, python, go',
+  currentState: 'Scanning with veracode before code gets deployed. Scans are too slow and cause delays & developer frustration',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: '',
+  cloudProvider: ''
+}
+Enhanced inputs: {
+  scm: 'github, bitbucket',
+  languages: 'Java, Python, Go',
+  currentState: 'Scanning with veracode before code gets deployed. Scans are too slow and cause delays & developer frustration',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: '',
+  cloudProvider: ''
+}

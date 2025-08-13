@@ -15,7 +15,7 @@ const competitiveIntel = require('./src/competitiveIntel');
 const implementationResources = require('./src/implementationResources');
 
 // Enhanced input processing with abbreviation expansion and spelling corrections
-function enhanceUserInputs(scm, languages, currentState, additionalContext) {
+function enhanceUserInputs(scm, languages, currentState, additionalContext, ide, cicd, containerRegistry, iac, cloudProvider) {
   // Language abbreviation and spelling correction map
   const languageMap = {
     'js': 'JavaScript',
@@ -79,6 +79,85 @@ function enhanceUserInputs(scm, languages, currentState, additionalContext) {
     'codecommit': 'AWS CodeCommit'
   };
 
+  const ideMap = {
+    'vscode': 'VS Code',
+    'vs code': 'VS Code',
+    'visual studio code': 'VS Code',
+    'intellij': 'IntelliJ IDEA',
+    'intellij idea': 'IntelliJ IDEA',
+    'idea': 'IntelliJ IDEA',
+    'eclipse': 'Eclipse',
+    'vim': 'Vim',
+    'neovim': 'Neovim',
+    'emacs': 'Emacs',
+    'sublime': 'Sublime Text',
+    'atom': 'Atom',
+    'webstorm': 'WebStorm',
+    'pycharm': 'PyCharm'
+  };
+
+  const cicdMap = {
+    'jenkins': 'Jenkins',
+    'github actions': 'GitHub Actions',
+    'gh actions': 'GitHub Actions',
+    'gitlab ci': 'GitLab CI/CD',
+    'gitlab ci/cd': 'GitLab CI/CD',
+    'azure pipelines': 'Azure Pipelines',
+    'azure devops pipelines': 'Azure Pipelines',
+    'circleci': 'CircleCI',
+    'circle ci': 'CircleCI',
+    'travis': 'Travis CI',
+    'travis ci': 'Travis CI',
+    'bamboo': 'Bamboo',
+    'teamcity': 'TeamCity'
+  };
+
+  const containerRegistryMap = {
+    'docker hub': 'Docker Hub',
+    'dockerhub': 'Docker Hub',
+    'ecr': 'Amazon ECR',
+    'amazon ecr': 'Amazon ECR',
+    'acr': 'Azure Container Registry',
+    'azure container registry': 'Azure Container Registry',
+    'gcr': 'Google Container Registry',
+    'google container registry': 'Google Container Registry',
+    'gar': 'Google Artifact Registry',
+    'google artifact registry': 'Google Artifact Registry',
+    'artifactory': 'JFrog Artifactory',
+    'jfrog': 'JFrog Artifactory'
+  };
+
+  const iacMap = {
+    'terraform': 'Terraform',
+    'tf': 'Terraform',
+    'cloudformation': 'AWS CloudFormation',
+    'cfn': 'AWS CloudFormation',
+    'arm': 'Azure Resource Manager',
+    'azure rm': 'Azure Resource Manager',
+    'kubernetes': 'Kubernetes',
+    'k8s': 'Kubernetes',
+    'helm': 'Helm',
+    'pulumi': 'Pulumi',
+    'cdk': 'AWS CDK',
+    'aws cdk': 'AWS CDK'
+  };
+
+  const cloudProviderMap = {
+    'aws': 'Amazon Web Services (AWS)',
+    'amazon': 'Amazon Web Services (AWS)',
+    'amazon web services': 'Amazon Web Services (AWS)',
+    'azure': 'Microsoft Azure',
+    'microsoft azure': 'Microsoft Azure',
+    'gcp': 'Google Cloud Platform (GCP)',
+    'google cloud': 'Google Cloud Platform (GCP)',
+    'google cloud platform': 'Google Cloud Platform (GCP)',
+    'multi-cloud': 'Multi-cloud',
+    'multicloud': 'Multi-cloud',
+    'on-premises': 'On-premises',
+    'on-prem': 'On-premises',
+    'hybrid': 'Hybrid cloud'
+  };
+
   // Enhance languages
   let enhancedLanguages = languages;
   if (enhancedLanguages) {
@@ -96,11 +175,23 @@ function enhanceUserInputs(scm, languages, currentState, additionalContext) {
     enhancedScm = scmMap[cleanScm] || scm;
   }
 
+  // Enhance optional fields
+  const enhanceField = (field, map) => {
+    if (!field) return '';
+    const cleanField = field.trim().toLowerCase();
+    return map[cleanField] || field.trim();
+  };
+
   return {
     scm: enhancedScm,
     languages: enhancedLanguages,
     currentState: currentState,
-    additionalContext: additionalContext || ''
+    additionalContext: additionalContext || '',
+    ide: enhanceField(ide, ideMap),
+    cicd: enhanceField(cicd, cicdMap),
+    containerRegistry: enhanceField(containerRegistry, containerRegistryMap),
+    iac: enhanceField(iac, iacMap),
+    cloudProvider: enhanceField(cloudProvider, cloudProviderMap)
   };
 }
 
@@ -226,7 +317,7 @@ app.post('/api/upload-tech', upload.single('techFile'), async (req, res) => {
 // New implementation guide endpoint with AI input enhancement
 app.post('/api/generate-implementation', async (req, res) => {
   try {
-    const { scm, languages, currentState, additionalContext } = req.body;
+    const { scm, languages, currentState, additionalContext, ide, cicd, containerRegistry, iac, cloudProvider } = req.body;
 
     if (!scm || !languages || !currentState) {
       return res.status(400).json({ error: 'SCM, languages, and current state are required' });
@@ -235,20 +326,28 @@ app.post('/api/generate-implementation', async (req, res) => {
     console.log('🧠 AI enhancing user inputs...');
     
     // Enhanced input processing with abbreviation expansion
-    const enhancedInputs = enhanceUserInputs(scm, languages, currentState, additionalContext);
+    const enhancedInputs = enhanceUserInputs(scm, languages, currentState, additionalContext, ide, cicd, containerRegistry, iac, cloudProvider);
     
-    console.log('Original inputs:', { scm, languages, currentState });
+    console.log('Original inputs:', { scm, languages, currentState, ide, cicd, containerRegistry, iac, cloudProvider });
     console.log('Enhanced inputs:', enhancedInputs);
 
-    // Build discovery notes from enhanced input
-    const discoveryNotes = `
+    // Build discovery notes from enhanced input including optional tech stack
+    let discoveryNotes = `
 SCM: ${enhancedInputs.scm}
 Programming Languages: ${enhancedInputs.languages}  
-Current Scan Processes: ${enhancedInputs.currentState}
-${enhancedInputs.additionalContext ? `Additional Context: ${enhancedInputs.additionalContext}` : ''}
-    `.trim();
+Current Scan Processes: ${enhancedInputs.currentState}`;
 
-    const result = await povProcessor.processDiscoveryNotes(discoveryNotes);
+    // Add optional tech stack details if provided
+    if (enhancedInputs.ide) discoveryNotes += `\nIDE: ${enhancedInputs.ide}`;
+    if (enhancedInputs.cicd) discoveryNotes += `\nCI/CD: ${enhancedInputs.cicd}`;
+    if (enhancedInputs.containerRegistry) discoveryNotes += `\nContainer Registry: ${enhancedInputs.containerRegistry}`;
+    if (enhancedInputs.iac) discoveryNotes += `\nInfrastructure as Code: ${enhancedInputs.iac}`;
+    if (enhancedInputs.cloudProvider) discoveryNotes += `\nCloud Provider: ${enhancedInputs.cloudProvider}`;
+    if (enhancedInputs.additionalContext) discoveryNotes += `\nAdditional Context: ${enhancedInputs.additionalContext}`;
+    
+    discoveryNotes = discoveryNotes.trim();
+
+    const result = await povProcessor.processDiscoveryNotes(discoveryNotes, enhancedInputs);
     
     // Add the enhanced inputs to the response so the frontend can show them
     result.enhancedInputs = enhancedInputs;

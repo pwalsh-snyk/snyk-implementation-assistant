@@ -540,6 +540,13 @@ class ImplementationResources {
       iac: this.getIACGuides(techStack.iacFormats)
     };
 
+    // Add Snyk Broker guide for on-premises environments
+    if (techStack.cloudProvider && 
+        (techStack.cloudProvider.toLowerCase().includes('on-premises') || 
+         techStack.cloudProvider.toLowerCase().includes('on-prem'))) {
+      guides.broker = this.getBrokerGuides();
+    }
+
     return guides;
   }
 
@@ -573,7 +580,7 @@ class ImplementationResources {
             name: scmInfo.name,
             links: scmInfo.links,
             setupSteps: scmInfo.setupSteps,
-            patPermissions: scmInfo.patPermissions
+            patPermissions: scmInfo.patPermissions || null
           });
         }
       });
@@ -792,6 +799,79 @@ class ImplementationResources {
       message: 'IaC-specific guides not available',
       generalLinks: [
         'https://docs.snyk.io/snyk-infrastructure-as-code'
+      ]
+    };
+  }
+
+  getBrokerGuides() {
+    return {
+      name: 'Snyk Broker for On-Premises Integration',
+      description: 'Snyk Broker enables secure connections between your on-premises infrastructure and Snyk\'s cloud platform without exposing your internal network.',
+      brokerType: 'Universal Broker (Recommended)',
+      status: 'Early Access - Available with Enterprise plans',
+      overview: {
+        purpose: 'The Universal Broker improves the management of Broker deployments and connections, supporting many connections of any type through a single running client.',
+        benefits: [
+          'Single client supports multiple connections (GitHub, GitLab, Artifactory, Jira, Container Registry)',
+          'Credentials remain entirely local to your network',
+          'No credentials stored on Snyk platform',
+          'Simplified deployment management',
+          'Support for multiple replicas for high availability'
+        ],
+        architecture: 'Each client deployment can support multiple connections of any type to provide access to your private resources'
+      },
+      links: [
+        'https://docs.snyk.io/implementation-and-setup/enterprise-setup/snyk-broker/universal-broker',
+        'https://docs.snyk.io/implementation-and-setup/enterprise-setup/snyk-broker/universal-broker/prerequisites-for-universal-broker',
+        'https://docs.snyk.io/implementation-and-setup/enterprise-setup/snyk-broker/universal-broker/basic-steps-to-install-and-configure-universal-broker',
+        'https://learn.snyk.io/lesson/snyk-universal-broker/'
+      ],
+      setupSteps: [
+        'Review Universal Broker prerequisites and requirements',
+        'Prepare your deployment environment (Docker or Kubernetes)',
+        'Install and configure Universal Broker client',
+        'Set up connections to your private resources (SCM, registries, etc.)',
+        'Integrate with your Snyk Organizations',
+        'Test connectivity and validate integrations',
+        'Configure high availability with multiple replicas (recommended)',
+        'Monitor and maintain your Broker deployment'
+      ],
+      prerequisites: [
+        'Enterprise Snyk plan',
+        'Docker or Kubernetes environment for deployment',
+        'Network connectivity to Snyk\'s broker server',
+        'Access to configure firewalls and network policies',
+        'Tokens and credentials for target integrations (GitHub, GitLab, etc.)'
+      ],
+      keyFeatures: [
+        'Support for multiple connection types in a single deployment',
+        'GitHub, GitLab, Bitbucket, Azure Repos integrations',
+        'Container registry connections (Artifactory, Nexus, etc.)',
+        'Jira integration for issue tracking',
+        'Infrastructure as Code scanning',
+        'Container Image Agent support'
+      ],
+      deployment: {
+        options: ['Docker containers', 'Kubernetes deployments', 'Helm charts'],
+        recommended: 'Kubernetes with Helm for production environments',
+        scaling: 'Multiple replicas supported for high availability'
+      },
+      security: {
+        model: 'Credentials never leave your network',
+        communication: 'Outbound HTTPS connections only',
+        authentication: 'Token-based authentication with Snyk platform'
+      },
+      supportedIntegrations: [
+        'Source Code Management (GitHub, GitLab, Bitbucket, Azure Repos)',
+        'Container Registries (Artifactory, Nexus)',
+        'Issue Tracking (Jira)',
+        'Container Runtime Protection',
+        'Infrastructure as Code scanning'
+      ],
+      learningResources: [
+        'Snyk Learn: Universal Broker course available',
+        'Documentation covers advantages, configuration, and architecture',
+        'Step-by-step setup guides for each integration type'
       ]
     };
   }
