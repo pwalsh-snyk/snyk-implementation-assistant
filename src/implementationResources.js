@@ -17,15 +17,15 @@ class ImplementationResources {
           ],
           patPermissions: {
             required: [
-              'repo (Full control of private repositories)',
-              'admin:repo_hook (Read and write repository hooks)',
-              'admin:org_hook (Read and write organization hooks)'
+              'repo (Full control of private repositories) - Required for accessing private repos',
+              'read:org (Read org and team membership) - Required for organization-level access'
             ],
             optional: [
-              'user:email (Access user email addresses)',
-              'read:org (Read org and team membership, read org projects)'
+              'admin:repo_hook (Repository webhooks) - Only if using webhook integrations',
+              'admin:org_hook (Organization webhooks) - Only if using org-level webhooks',
+              'user:email (Access user email) - For user identification in some workflows'
             ],
-            notes: 'For GitHub Enterprise, ensure the PAT has the same permissions. For GitHub.com, the Snyk GitHub App is recommended over PAT.'
+            notes: 'For GitHub.com, Snyk GitHub App is preferred over PAT for better security. For GitHub Enterprise Server, PAT is required. Fine-grained tokens are supported with Contents (read) and Metadata (read) permissions.'
           }
         },
         'gitlab': {
@@ -373,8 +373,39 @@ class ImplementationResources {
       };
     }
 
+    // Handle multiple SCMs
+    if (Array.isArray(scmTool)) {
+      const multipleScmGuides = {
+        name: `Multiple SCM Systems (${scmTool.join(', ')})`,
+        isMultiple: true,
+        scmTools: [],
+        implementationGuide: this.getEnterpriseImplementationGuide()
+      };
+
+      scmTool.forEach(tool => {
+        const scmKey = tool.toLowerCase();
+        const scmInfo = this.resources.scm[scmKey];
+        if (scmInfo) {
+          multipleScmGuides.scmTools.push({
+            name: scmInfo.name,
+            links: scmInfo.links,
+            setupSteps: scmInfo.setupSteps,
+            patPermissions: scmInfo.patPermissions
+          });
+        }
+      });
+
+      return multipleScmGuides;
+    }
+
+    // Handle single SCM
     const scmKey = scmTool.toLowerCase();
     const scmInfo = this.resources.scm[scmKey];
+    
+    // Add implementation guide to the SCM info
+    if (scmInfo) {
+      scmInfo.implementationGuide = this.getEnterpriseImplementationGuide();
+    }
     
     return scmInfo || {
       name: scmTool,
@@ -510,6 +541,202 @@ class ImplementationResources {
       message: 'IaC-specific guides not available',
       generalLinks: [
         'https://docs.snyk.io/snyk-infrastructure-as-code'
+      ]
+    };
+  }
+
+  getEnterpriseImplementationGuide() {
+    return {
+      title: 'Snyk Enterprise Implementation Guide',
+      overview: 'Strategic approach to implementing Snyk at enterprise scale with proven methodology',
+      documentationLink: 'https://docs.snyk.io/implementation-and-setup/enterprise-implementation-guide',
+      strategy: {
+        goals: [
+          'Achieve visibility across your application portfolio',
+          'Achieve prevention and drive developer adoption', 
+          'Fix the backlog and triage issues'
+        ],
+        approach: 'Three-phase implementation focusing on visibility first, then prevention, and finally backlog remediation'
+      },
+      phases: [
+        {
+          phase: 'Phase 1: Discovery and Planning',
+          timeline: 'Week 1-2',
+          objectives: [
+            'Connect with Snyk team for guidance',
+            'Conduct comprehensive discovery of current state',
+            'Plan Organization structure and user roles',
+            'Decide on SSO access requirements',
+            'Choose rollout integrations based on tech stack',
+            'Create detailed rollout plan'
+          ],
+          keyActivities: [
+            'Validate current tech stack and security tools',
+            'Identify key stakeholders and champions',
+            'Determine pilot teams and applications',
+            'Plan success metrics and KPIs'
+          ],
+          deliverables: [
+            'Organization structure plan',
+            'User role assignments',
+            'Integration roadmap',
+            'Success criteria definition'
+          ]
+        },
+        {
+          phase: 'Phase 2: Configure Account',
+          timeline: 'Week 2-3',
+          objectives: [
+            'Configure SSO for enterprise authentication',
+            'Set up Organization template and visibility settings',
+            'Configure integrations with SCM and CI/CD',
+            'Apply security and license policies',
+            'Configure Asset Management'
+          ],
+          keyActivities: [
+            'Set up Single Sign-On integration',
+            'Configure notifications and alerts',
+            'Enable Snyk Code for SAST scanning',
+            'Create Organizations based on structure plan',
+            'Configure Snyk Essentials for coverage control'
+          ],
+          deliverables: [
+            'Configured Snyk environment',
+            'Active SSO integration',
+            'Organization templates',
+            'Initial policy framework'
+          ]
+        },
+        {
+          phase: 'Phase 3: Gain Visibility',
+          timeline: 'Week 3-4',
+          objectives: [
+            'Import Projects to gain security visibility',
+            'Set up Asset Policies for governance',
+            'Configure Snyk AppRisk Insights (if available)',
+            'Add Project tags and attributes for organization'
+          ],
+          keyActivities: [
+            'Bulk import repositories using API Import Tool',
+            'Configure asset classification and tagging',
+            'Set up initial reporting and dashboards',
+            'Establish baseline security metrics'
+          ],
+          deliverables: [
+            'Complete application portfolio visibility',
+            'Categorized and tagged Projects',
+            'Initial security assessment report',
+            'Baseline metrics established'
+          ]
+        },
+        {
+          phase: 'Phase 4: Create Fix Strategy',
+          timeline: 'Week 4-5',
+          objectives: [
+            'Analyze discovered security issues',
+            'Prioritize remediation efforts',
+            'Create triage workflows',
+            'Establish fix strategy and timelines'
+          ],
+          keyActivities: [
+            'Review and categorize security findings',
+            'Create priority matrix for vulnerabilities',
+            'Establish triage process with development teams',
+            'Define SLAs for different severity levels'
+          ],
+          deliverables: [
+            'Prioritized remediation roadmap',
+            'Triage process documentation',
+            'SLA definitions',
+            'Resource allocation plan'
+          ]
+        },
+        {
+          phase: 'Phase 5: Initial Rollout to Team',
+          timeline: 'Week 5-6',
+          objectives: [
+            'Notify and train development teams',
+            'Deploy IDE plugins for developer adoption',
+            'Provide Snyk Learn training resources',
+            'Establish support channels'
+          ],
+          keyActivities: [
+            'Conduct developer training sessions',
+            'Roll out IDE integrations (VS Code, IntelliJ)',
+            'Create internal documentation and guides',
+            'Establish feedback channels'
+          ],
+          deliverables: [
+            'Trained development teams',
+            'Active IDE plugin usage',
+            'Internal training materials',
+            'Support process established'
+          ]
+        },
+        {
+          phase: 'Phase 6: Rolling Out Prevention',
+          timeline: 'Week 6-8',
+          objectives: [
+            'Enable PR/MR checks for automated scanning',
+            'Configure CI/CD pipeline integration',
+            'Implement custom base images scanning',
+            'Deploy Infrastructure as Code scanning'
+          ],
+          keyActivities: [
+            'Configure automated PR checks',
+            'Integrate Snyk into CI/CD pipelines',
+            'Set up container registry scanning',
+            'Enable IaC security scanning',
+            'Configure pipeline gates and fail conditions'
+          ],
+          deliverables: [
+            'Automated security gates',
+            'Active PR/MR scanning',
+            'CI/CD pipeline integration',
+            'Container and IaC scanning'
+          ]
+        },
+        {
+          phase: 'Phase 7: Triages, Ignores, and Fixes',
+          timeline: 'Week 8+',
+          objectives: [
+            'Establish ongoing triage processes',
+            'Implement ignore policies for accepted risks',
+            'Execute remediation plan',
+            'Monitor and measure progress'
+          ],
+          keyActivities: [
+            'Weekly triage meetings with teams',
+            'Implement ignore policies for false positives',
+            'Execute vulnerability fixes based on priority',
+            'Monitor developer adoption metrics',
+            'Regular reporting to stakeholders'
+          ],
+          deliverables: [
+            'Sustainable triage process',
+            'Reduced vulnerability backlog',
+            'Improved security posture',
+            'Regular progress reports'
+          ]
+        }
+      ],
+      timeline: {
+        small_business: 'Days to weeks - rapid implementation possible',
+        enterprise: 'Weeks to months - detailed planning and phased rollout',
+        typical_enterprise: '6-8 weeks for full implementation'
+      },
+      successFactors: [
+        'Executive sponsorship and change management',
+        'Developer champion identification and training',
+        'Gradual rollout starting with visibility before enforcement',
+        'Clear communication and feedback channels',
+        'Regular progress monitoring and stakeholder updates'
+      ],
+      keyResources: [
+        'Snyk Customer Success team for guidance',
+        'Snyk Learn for developer education',
+        'API Import Tool for bulk repository onboarding',
+        'Snyk Essentials for enterprise governance'
       ]
     };
   }

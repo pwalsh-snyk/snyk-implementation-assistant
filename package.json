@@ -1,7 +1,7 @@
 {
-  "name": "snyk-pov-assistant",
+  "name": "snyk-sherpai",
   "version": "1.0.0",
-  "description": "Interactive chatbot for Snyk SEs and AEs to create POV worksheets from discovery notes",
+  "description": "Snyk SherpAI - AI-powered POV worksheet generator for Snyk Sales Engineers and Account Executives",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

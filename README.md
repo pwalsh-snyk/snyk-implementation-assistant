@@ -1,6 +1,6 @@
-# Snyk POV Assistant
+# Snyk SherpAI
 
-An interactive chatbot application that helps Snyk Sales Engineers (SEs) and Account Executives (AEs) create comprehensive POV (Proof of Value) worksheets from their discovery notes.
+SherpAI is your AI guide for creating comprehensive POV (Proof of Value) worksheets. Designed for Snyk Sales Engineers (SEs) and Account Executives (AEs), it transforms discovery notes into detailed implementation strategies and competitive intelligence.
 
 ## Features
 

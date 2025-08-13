@@ -197,6 +197,6 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Snyk POV Assistant running on port ${PORT}`);
+  console.log(`Snyk SherpAI running on port ${PORT}`);
   console.log(`Open http://localhost:${PORT} to access the application`);
 }); 

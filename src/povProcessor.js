@@ -4,12 +4,10 @@ const implementationResources = require('./implementationResources');
 class POVProcessor {
   constructor() {
     this.qualificationCriteria = {
-      minDiscoveryLength: 50,
+      minDiscoveryLength: 30,
       requiredFields: [
-        'currentState',
-        'challenges',
-        'techStack',
-        'stakeholders'
+        'techStack', // Just need languages and SCM
+        'currentState' // Just need what they're doing now for security
       ]
     };
   }
@@ -91,24 +89,32 @@ class POVProcessor {
       result.recommendations.push('Please provide more detailed discovery notes');
     }
 
-    // Check for required information
-    const requiredInfo = this.qualificationCriteria.requiredFields;
+    // Check for required information - just tech stack and current state
     const missingInfo = [];
 
-    if (!discoveryNotes.toLowerCase().includes('current') && !discoveryNotes.toLowerCase().includes('existing')) {
-      missingInfo.push('Current state analysis');
+    // Check for technology stack (languages and SCM)
+    const hasLanguages = ['javascript', 'typescript', 'python', 'java', 'c#', 'go', 'rust', 'php', 'ruby', 'node.js', 'react', 'angular', 'vue'].some(lang => 
+      discoveryNotes.toLowerCase().includes(lang)
+    );
+    const hasSCM = ['github', 'gitlab', 'bitbucket', 'azure devops', 'aws codecommit', 'git'].some(scm => 
+      discoveryNotes.toLowerCase().includes(scm)
+    );
+    
+    if (!hasLanguages && !discoveryNotes.toLowerCase().includes('language') && !discoveryNotes.toLowerCase().includes('tech')) {
+      missingInfo.push('Programming languages or technology stack');
     }
     
-    if (!discoveryNotes.toLowerCase().includes('challenge') && !discoveryNotes.toLowerCase().includes('problem') && !discoveryNotes.toLowerCase().includes('issue')) {
-      missingInfo.push('Current challenges or problems');
+    if (!hasSCM && !discoveryNotes.toLowerCase().includes('scm') && !discoveryNotes.toLowerCase().includes('source control') && !discoveryNotes.toLowerCase().includes('version control')) {
+      missingInfo.push('Source code management system');
     }
     
-    if (!discoveryNotes.toLowerCase().includes('tech') && !discoveryNotes.toLowerCase().includes('stack') && !discoveryNotes.toLowerCase().includes('language')) {
-      missingInfo.push('Technology stack information');
-    }
+    // Check for current state (what they're doing for security now - including nothing)
+    const hasCurrentState = ['current', 'currently', 'existing', 'using', 'have', 'scan', 'security', 'tool', 'solution', 'nothing', 'no security', 'manual'].some(state => 
+      discoveryNotes.toLowerCase().includes(state)
+    );
     
-    if (!discoveryNotes.toLowerCase().includes('stakeholder') && !discoveryNotes.toLowerCase().includes('contact') && !discoveryNotes.toLowerCase().includes('team')) {
-      missingInfo.push('Stakeholder information');
+    if (!hasCurrentState) {
+      missingInfo.push('Current security scanning practices (what they do now, even if nothing)');
     }
 
     if (missingInfo.length > 0) {
@@ -152,18 +158,91 @@ class POVProcessor {
   }
 
   extractCurrentState(notes) {
-    const currentStateKeywords = ['currently', 'existing', 'current state', 'now', 'presently'];
-    const sentences = notes.split(/[.!?]+/);
+    const lowerNotes = notes.toLowerCase();
     
-    for (const sentence of sentences) {
-      for (const keyword of currentStateKeywords) {
-        if (sentence.toLowerCase().includes(keyword)) {
-          return sentence.trim();
-        }
+    // Detect security tools they're currently using
+    const securityTools = [];
+    const toolPatterns = {
+      'veracode': 'Veracode',
+      'checkmarx': 'Checkmarx', 
+      'sonarqube': 'SonarQube',
+      'sonar': 'SonarQube',
+      'fortify': 'Fortify',
+      'github advanced security': 'GitHub Advanced Security',
+      'github security': 'GitHub Advanced Security',
+      'snyk': 'Snyk',
+      'prisma cloud': 'Prisma Cloud',
+      'aqua security': 'Aqua Security',
+      'twistlock': 'Twistlock',
+      'clair': 'Clair',
+      'trivy': 'Trivy',
+      'whitesource': 'WhiteSource',
+      'blackduck': 'Black Duck'
+    };
+    
+    for (const [pattern, tool] of Object.entries(toolPatterns)) {
+      if (lowerNotes.includes(pattern)) {
+        securityTools.push(tool);
       }
     }
     
-    return 'Current state analysis needed';
+    // Detect scanning practices
+    const practices = [];
+    if (lowerNotes.includes('manual') && (lowerNotes.includes('scan') || lowerNotes.includes('review'))) {
+      practices.push('manual security reviews');
+    }
+    if (lowerNotes.includes('sast')) practices.push('SAST scanning');
+    if (lowerNotes.includes('sca') || lowerNotes.includes('dependency')) practices.push('dependency scanning');
+    if (lowerNotes.includes('container') && lowerNotes.includes('scan')) practices.push('container scanning');
+    if (lowerNotes.includes('iac') || lowerNotes.includes('infrastructure as code')) practices.push('IaC scanning');
+    
+    // Detect if they have no security or limited security
+    const noSecurity = lowerNotes.includes('no security') || 
+                      lowerNotes.includes('nothing') || 
+                      lowerNotes.includes('no scanning') ||
+                      lowerNotes.includes('no tools') ||
+                      lowerNotes.includes('limited security');
+    
+    // Build current state description
+    let currentState = '';
+    
+    if (noSecurity) {
+      currentState = 'The customer currently has limited or no automated security scanning in place. They rely on manual processes or ad-hoc security reviews, creating significant security risks and slowing down development cycles.';
+    } else if (securityTools.length > 0) {
+      currentState = `The customer currently uses ${securityTools.join(', ')} for security scanning.`;
+      if (practices.length > 0) {
+        currentState += ` Their current practices include ${practices.join(', ')}.`;
+      }
+      
+      // Add common pain points based on tools
+      if (securityTools.includes('Veracode') || securityTools.includes('Checkmarx')) {
+        currentState += ' They face challenges with slow scan times, high false positive rates, and poor developer experience.';
+      } else if (securityTools.includes('SonarQube')) {
+        currentState += ' While they have code quality scanning, they lack comprehensive security vulnerability detection and container/infrastructure scanning.';
+      } else if (securityTools.includes('GitHub Advanced Security')) {
+        currentState += ' They have some security capabilities but lack comprehensive language support and container/infrastructure scanning.';
+      }
+    } else if (practices.length > 0) {
+      currentState = `The customer currently implements ${practices.join(', ')} but lacks a comprehensive, automated security scanning solution.`;
+    } else {
+      // Try to extract any current state information from the notes
+      const sentences = notes.split(/[.!?]+/);
+      for (const sentence of sentences) {
+        if (sentence.toLowerCase().includes('current') || 
+            sentence.toLowerCase().includes('existing') || 
+            sentence.toLowerCase().includes('using') ||
+            sentence.toLowerCase().includes('have')) {
+          currentState = sentence.trim();
+          break;
+        }
+      }
+      
+      if (!currentState) {
+        currentState = 'The customer currently has an ad-hoc approach to application security with limited automated scanning capabilities.';
+      }
+    }
+    
+    return currentState;
   }
 
   extractChallenges(notes) {
@@ -198,12 +277,22 @@ class POVProcessor {
 
   extractSCMTool(notes) {
     const scmTools = ['github', 'gitlab', 'bitbucket', 'azure devops', 'aws codecommit'];
+    const foundTools = [];
+    
     for (const tool of scmTools) {
       if (notes.toLowerCase().includes(tool)) {
-        return tool;
+        foundTools.push(tool);
       }
     }
-    return 'SCM tool TBD';
+    
+    // Return array if multiple tools found, single string if one, or default if none
+    if (foundTools.length > 1) {
+      return foundTools;
+    } else if (foundTools.length === 1) {
+      return foundTools[0];
+    } else {
+      return 'SCM tool TBD';
+    }
   }
 
   extractLanguages(notes) {
@@ -342,7 +431,7 @@ class POVProcessor {
     return {
       executiveSummary: {
         currentState: extractedInfo.currentState,
-        futureState: this.generateFutureState(extractedInfo.challenges)
+        futureState: this.generateFutureState(extractedInfo)
       },
       solutionsMap: this.generateSolutionsMap(extractedInfo.challenges),
       stakeholders: this.formatStakeholders(extractedInfo.stakeholders),
@@ -353,12 +442,74 @@ class POVProcessor {
     };
   }
 
-  generateFutureState(challenges) {
-    if (challenges.length === 0 || challenges[0] === 'Challenges to be identified') {
-      return 'Future state to be defined based on discovery';
+  generateFutureState(extractedInfo) {
+    const { techStack, currentState, challenges } = extractedInfo;
+    
+    let futureState = 'With Snyk implementation, the customer will achieve: ';
+    const benefits = [];
+    
+    // Core benefits based on tech stack
+    if (techStack.languages && Array.isArray(techStack.languages) && techStack.languages.length > 0 && techStack.languages[0] !== 'Languages TBD') {
+      benefits.push(`comprehensive security scanning across all ${techStack.languages.join(', ')} applications`);
     }
     
-    return `Future state will address: ${challenges.join(', ')}`;
+    if (techStack.sourceCodeManagement && techStack.sourceCodeManagement !== 'SCM tool TBD') {
+      benefits.push(`seamless integration with ${techStack.sourceCodeManagement} for automated PR checks and developer workflow integration`);
+    }
+    
+    // Address current state gaps
+    if (currentState.toLowerCase().includes('manual') || currentState.toLowerCase().includes('ad-hoc')) {
+      benefits.push('automated security scanning replacing manual processes');
+      benefits.push('shift-left security with real-time vulnerability detection in the IDE');
+    }
+    
+    if (currentState.toLowerCase().includes('no security') || currentState.toLowerCase().includes('limited') || currentState.toLowerCase().includes('nothing')) {
+      benefits.push('comprehensive application security coverage from code to deployment');
+      benefits.push('proactive vulnerability management with actionable remediation guidance');
+    }
+    
+    if (currentState.toLowerCase().includes('slow') || currentState.toLowerCase().includes('false positive')) {
+      benefits.push('faster scanning with industry-leading accuracy and low false positive rates');
+      benefits.push('developer-friendly security tools that accelerate rather than impede development');
+    }
+    
+    // Tech-specific benefits
+    if (techStack.cicd && techStack.cicd !== 'CI/CD TBD') {
+      benefits.push(`automated security gates in ${techStack.cicd} pipelines with configurable fail conditions`);
+    }
+    
+    if (techStack.containerRegistry && techStack.containerRegistry !== 'Container Registry TBD') {
+      benefits.push('container image vulnerability scanning with base image recommendations');
+    }
+    
+    if (techStack.iacFormats && Array.isArray(techStack.iacFormats) && techStack.iacFormats[0] !== 'IaC formats TBD') {
+      benefits.push(`infrastructure as code security scanning for ${techStack.iacFormats.join(', ')} configurations`);
+    }
+    
+    // Universal benefits
+    benefits.push('unified security platform providing visibility across the entire software development lifecycle');
+    benefits.push('measurable reduction in mean time to remediation (MTTR) through prioritized, actionable vulnerability insights');
+    benefits.push('compliance-ready reporting and governance controls for security policy enforcement');
+    
+    // Competitive advantages based on current tools
+    if (currentState.toLowerCase().includes('veracode') || currentState.toLowerCase().includes('checkmarx')) {
+      benefits.push('significantly faster scan times with real-time feedback during development');
+      benefits.push('AI-powered auto-fix capabilities reducing manual remediation effort');
+    }
+    
+    if (currentState.toLowerCase().includes('sonarqube')) {
+      benefits.push('expanded security coverage beyond code quality to include containers and infrastructure');
+      benefits.push('comprehensive vulnerability database with real-time updates');
+    }
+    
+    if (currentState.toLowerCase().includes('github')) {
+      benefits.push('enhanced language support and more comprehensive vulnerability detection');
+      benefits.push('superior container and infrastructure security capabilities');
+    }
+    
+    futureState += benefits.slice(0, 5).join('; ') + '.';
+    
+    return futureState;
   }
 
   generateSolutionsMap(challenges) {
