@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snyk POV Assistant</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 100vh;
+        }
+
+        .chat-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.assistant .message-avatar {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .message-content {
+            background: #f8f9fa;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.error .message-content {
+            background: #fee;
+            color: #c53030;
+            border: 1px solid #fed7d7;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input textarea {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            resize: none;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .output-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .output-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .output-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .output-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .output-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .pov-worksheet {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pov-worksheet h3 {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .worksheet-section {
+            margin-bottom: 20px;
+        }
+
+        .worksheet-section h4 {
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .worksheet-section p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            font-size: 14px;
+        }
+
+        .competitive-advantages {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .competitive-advantages h3 {
+            color: #0369a1;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .advantage-list {
+            list-style: none;
+        }
+
+        .advantage-list li {
+            color: #0369a1;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .advantage-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #059669;
+            font-weight: bold;
+        }
+
+        .trap-questions {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .trap-questions h3 {
+            color: #92400e;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .question-list {
+            list-style: none;
+        }
+
+        .question-list li {
+            color: #92400e;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .question-list li::before {
+            content: "?";
+            position: absolute;
+            left: 0;
+            color: #f59e0b;
+            font-weight: bold;
+        }
+
+        .implementation-resources {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .implementation-resources h3 {
+            color: #166534;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .resource-section {
+            margin-bottom: 16px;
+        }
+
+        .resource-section h4 {
+            color: #166534;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .resource-links {
+            list-style: none;
+        }
+
+        .resource-links li {
+            margin-bottom: 6px;
+        }
+
+        .resource-links a {
+            color: #059669;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .resource-links a:hover {
+            text-decoration: underline;
+        }
+
+        .setup-steps {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .setup-steps ol {
+            margin-left: 20px;
+            color: #166534;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .qualification-warning {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .qualification-warning h3 {
+            color: #dc2626;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .qualification-warning p {
+            color: #dc2626;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .missing-fields {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .missing-fields ul {
+            margin-left: 20px;
+            color: #dc2626;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .chat-section,
+            .output-section {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <h1><i class="fas fa-robot"></i> Snyk POV Assistant</h1>
+                <p>Share your discovery notes to generate a comprehensive POV worksheet</p>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        Hello! I'm here to help you create a comprehensive POV worksheet. Please share your discovery notes about the customer, including their current state, challenges, technology stack, and stakeholders involved. I'll analyze the information and generate a detailed POV worksheet with competitive intelligence and implementation resources.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <div class="input-group">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Enter your discovery notes here... (minimum 200 characters)"
+                        rows="4"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <div class="output-header">
+                <h2><i class="fas fa-file-alt"></i> POV Worksheet Output</h2>
+                <p>Generated worksheet will appear here after processing your discovery notes</p>
+            </div>
+            
+            <div class="output-content" id="outputContent">
+                <div class="pov-worksheet">
+                    <h3>Ready to Generate POV Worksheet</h3>
+                    <p>Enter your discovery notes in the chat to generate a comprehensive POV worksheet with:</p>
+                    <ul style="margin-left: 20px; margin-top: 8px; color: #666;">
+                        <li>Executive summary and solutions mapping</li>
+                        <li>Technology stack analysis</li>
+                        <li>Competitive intelligence and trap questions</li>
+                        <li>Implementation resources and guides</li>
+                        <li>Success criteria and timeline</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const outputContent = document.getElementById('outputContent');
+
+        let conversationHistory = [];
+
+        // Handle Enter key to send message
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage('user', message);
+            
+            // Clear input
+            messageInput.value = '';
+            
+            // Disable send button and show loading
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<div class="spinner"></div>Processing...';
+            
+            // Add loading message
+            const loadingMessage = addMessage('assistant', '<div class="loading"><div class="spinner"></div>Processing your discovery notes...</div>');
+
+            // Send message to server
+            socket.emit('send-message', {
+                message: message,
+                conversationHistory: conversationHistory
+            });
+
+            // Add to conversation history
+            conversationHistory.push({ role: 'user', content: message });
+        }
+
+        function addMessage(type, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = type === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = content;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+
+        // Handle server responses
+        socket.on('receive-message', function(data) {
+            // Remove loading message
+            const loadingMessage = chatMessages.querySelector('.loading');
+            if (loadingMessage) {
+                loadingMessage.parentElement.parentElement.remove();
+            }
+            
+            // Re-enable send button
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            
+            // Add assistant response
+            addMessage('assistant', data.content);
+            
+            // Add to conversation history
+            conversationHistory.push({ role: 'assistant', content: data.content });
+            
+            // Update output if POV worksheet is provided
+            if (data.povWorksheet) {
+                updateOutput(data.povWorksheet);
+            }
+        });
+
+        function updateOutput(data) {
+            if (!data.qualified) {
+                outputContent.innerHTML = `
+                    <div class="qualification-warning">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Opportunity Not Qualified</h3>
+                        <p>${data.message}</p>
+                        <div class="missing-fields">
+                            <strong>Missing Information:</strong>
+                            <ul>
+                                ${data.missingFields.map(field => `<li>${field}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <p><strong>Recommendations:</strong></p>
+                        <ul>
+                            ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                return;
+            }
+
+            let outputHTML = `
+                <div class="pov-worksheet">
+                    <h3><i class="fas fa-file-alt"></i> POV Worksheet</h3>
+                    
+                    <div class="worksheet-section">
+                        <h4>Executive Summary</h4>
+                        <p><strong>Current State:</strong> ${data.povWorksheet.executiveSummary.currentState}</p>
+                        <p><strong>Future State:</strong> ${data.povWorksheet.executiveSummary.futureState}</p>
+                    </div>
+                    
+                    <div class="worksheet-section">
+                        <h4>Technology Stack</h4>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item"><strong>SCM:</strong> ${data.povWorksheet.techStack.sourceCodeManagement}</div>
+                            <div class="tech-item"><strong>Languages:</strong> ${Array.isArray(data.povWorksheet.techStack.languages) ? data.povWorksheet.techStack.languages.join(', ') : data.povWorksheet.techStack.languages}</div>
+                            <div class="tech-item"><strong>IDE:</strong> ${data.povWorksheet.techStack.ide}</div>
+                            <div class="tech-item"><strong>CI/CD:</strong> ${data.povWorksheet.techStack.cicd}</div>
+                            <div class="tech-item"><strong>Container Registry:</strong> ${data.povWorksheet.techStack.containerRegistry}</div>
+                            <div class="tech-item"><strong>IaC:</strong> ${Array.isArray(data.povWorksheet.techStack.iacFormats) ? data.povWorksheet.techStack.iacFormats.join(', ') : data.povWorksheet.techStack.iacFormats}</div>
+                            <div class="tech-item"><strong>Cloud:</strong> ${data.povWorksheet.techStack.cloudProvider}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="worksheet-section">
+                        <h4>Solutions Map</h4>
+                        ${data.povWorksheet.solutionsMap.map(solution => `
+                            <div style="margin-bottom: 12px; padding: 12px; background: white; border-radius: 6px;">
+                                <p><strong>Outcome:</strong> ${solution.outcome}</p>
+                                <p><strong>Pathway:</strong> ${solution.pathway}</p>
+                                <p><strong>Snyk Products:</strong> ${solution.snykProducts.join(', ')}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="worksheet-section">
+                        <h4>Timeline</h4>
+                        ${data.povWorksheet.timeline.map(item => `
+                            <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px;">
+                                <p><strong>${item.event}</strong> (${item.due}) - ${item.status}</p>
+                                <p style="font-size: 12px; color: #666;">${item.agenda}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="worksheet-section">
+                        <h4>Success Criteria</h4>
+                        ${data.povWorksheet.successCriteria.map(criteria => `
+                            <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px;">
+                                <p><strong>${criteria.desiredState}</strong> (${criteria.priority})</p>
+                                <p style="font-size: 12px; color: #666;">${criteria.capabilities}</p>
+                                <p style="font-size: 12px; color: #999;">Status: ${criteria.result}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="worksheet-section">
+                        <h4>Onboarding Checklist</h4>
+                        <ol style="margin-left: 20px;">
+                            ${data.povWorksheet.onboardingChecklist.map(item => `<li>${item}</li>`).join('')}
+                        </ol>
+                    </div>
+                </div>
+            `;
+
+            // Add competitive advantages if available
+            if (data.competitiveAdvantages && data.competitiveAdvantages.advantages.length > 0) {
+                outputHTML += `
+                    <div class="competitive-advantages">
+                        <h3><i class="fas fa-trophy"></i> Competitive Advantages</h3>
+                        <ul class="advantage-list">
+                            ${data.competitiveAdvantages.advantages.map(advantage => `<li>${advantage}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Add trap questions if available
+            if (data.competitiveAdvantages && data.competitiveAdvantages.trapQuestions.length > 0) {
+                outputHTML += `
+                    <div class="trap-questions">
+                        <h3><i class="fas fa-question-circle"></i> Trap Planting Questions</h3>
+                        <ul class="question-list">
+                            ${data.competitiveAdvantages.trapQuestions.map(question => `<li>${question}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Add implementation resources if available
+            if (data.implementationGuides) {
+                outputHTML += `
+                    <div class="implementation-resources">
+                        <h3><i class="fas fa-book"></i> Implementation Resources</h3>
+                        
+                        ${renderImplementationGuides(data.implementationGuides)}
+                    </div>
+                `;
+            }
+
+            outputContent.innerHTML = outputHTML;
+        }
+
+        function renderImplementationGuides(guides) {
+            let html = '';
+            
+            // SCM Guides
+            if (guides.scm && !guides.scm.message) {
+                html += `
+                    <div class="resource-section">
+                        <h4>${guides.scm.name}</h4>
+                        <ul class="resource-links">
+                            ${guides.scm.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                        </ul>
+                        <div class="setup-steps">
+                            <strong>Setup Steps:</strong>
+                            <ol>
+                                ${guides.scm.setupSteps.map(step => `<li>${step}</li>`).join('')}
+                            </ol>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Language Guides
+            if (Array.isArray(guides.languages)) {
+                guides.languages.forEach(lang => {
+                    html += `
+                        <div class="resource-section">
+                            <h4>${lang.name}</h4>
+                            <ul class="resource-links">
+                                ${lang.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                            </ul>
+                            <div class="setup-steps">
+                                <strong>Setup Steps:</strong>
+                                <ol>
+                                    ${lang.setupSteps.map(step => `<li>${step}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // IDE Guides
+            if (guides.ide && !guides.ide.message) {
+                html += `
+                    <div class="resource-section">
+                        <h4>${guides.ide.name}</h4>
+                        <ul class="resource-links">
+                            ${guides.ide.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                        </ul>
+                        <div class="setup-steps">
+                            <strong>Setup Steps:</strong>
+                            <ol>
+                                ${guides.ide.setupSteps.map(step => `<li>${step}</li>`).join('')}
+                            </ol>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // CI/CD Guides
+            if (guides.cicd && !guides.cicd.message) {
+                html += `
+                    <div class="resource-section">
+                        <h4>${guides.cicd.name}</h4>
+                        <ul class="resource-links">
+                            ${guides.cicd.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                        </ul>
+                        <div class="setup-steps">
+                            <strong>Setup Steps:</strong>
+                            <ol>
+                                ${guides.cicd.setupSteps.map(step => `<li>${step}</li>`).join('')}
+                            </ol>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return html;
+        }
+    </script>
+</body>
+</html> 
