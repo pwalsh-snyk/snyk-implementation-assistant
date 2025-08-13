@@ -2,21 +2,109 @@ Snyk SherpAI running on port 3000
 Open http://localhost:3000 to access the application
 🧠 AI enhancing user inputs...
 Original inputs: {
-  scm: 'github, gitlab',
-  languages: 'java, python',
+  scm: 'gitlab',
+  languages: 'java',
+  currentState: 'nothing',
+  ide: 'VS Code',
+  cicd: 'jenkins',
+  containerRegistry: 'ECR',
+  iac: 'Terraform',
+  cloudProvider: ''
+}
+Enhanced inputs: {
+  scm: 'GitLab',
+  languages: 'Java',
+  currentState: 'nothing',
+  additionalContext: '',
+  ide: 'VS Code',
+  cicd: 'Jenkins',
+  containerRegistry: 'Amazon ECR',
+  iac: 'Terraform',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
   currentState: 'manual reviews',
   ide: undefined,
+  cicd: undefined,
+  containerRegistry: 'ecr',
+  iac: undefined,
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: 'Amazon ECR',
+  iac: '',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: undefined,
+  cicd: undefined,
+  containerRegistry: undefined,
+  iac: 'arm',
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: 'Azure Resource Manager',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: undefined,
+  cicd: 'circleci',
+  containerRegistry: undefined,
+  iac: undefined,
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: 'CircleCI',
+  containerRegistry: '',
+  iac: '',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: 'eclipse',
   cicd: undefined,
   containerRegistry: undefined,
   iac: undefined,
   cloudProvider: undefined
 }
 Enhanced inputs: {
-  scm: 'github, gitlab',
-  languages: 'Java, Python',
+  scm: 'GitHub',
+  languages: 'Java',
   currentState: 'manual reviews',
   additionalContext: '',
-  ide: '',
+  ide: 'Eclipse',
   cicd: '',
   containerRegistry: '',
   iac: '',
@@ -24,21 +112,65 @@ Enhanced inputs: {
 }
 🧠 AI enhancing user inputs...
 Original inputs: {
-  scm: 'github, gitlab',
-  languages: 'java, python',
+  scm: 'github',
+  languages: 'java',
   currentState: 'manual reviews',
   ide: undefined,
+  cicd: undefined,
+  containerRegistry: 'harbor',
+  iac: undefined,
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: 'harbor',
+  iac: '',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: undefined,
+  cicd: undefined,
+  containerRegistry: undefined,
+  iac: 'helm',
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: '',
+  cicd: '',
+  containerRegistry: '',
+  iac: 'Helm',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: 'visual studio',
   cicd: undefined,
   containerRegistry: undefined,
   iac: undefined,
   cloudProvider: undefined
 }
 Enhanced inputs: {
-  scm: 'github, gitlab',
-  languages: 'Java, Python',
+  scm: 'GitHub',
+  languages: 'Java',
   currentState: 'manual reviews',
   additionalContext: '',
-  ide: '',
+  ide: 'visual studio',
   cicd: '',
   containerRegistry: '',
   iac: '',
@@ -46,45 +178,133 @@ Enhanced inputs: {
 }
 🧠 AI enhancing user inputs...
 Original inputs: {
-  scm: 'github, gitlab',
-  languages: 'java, python',
+  scm: 'github',
+  languages: 'java',
   currentState: 'manual reviews',
   ide: undefined,
-  cicd: undefined,
+  cicd: 'travis ci',
   containerRegistry: undefined,
   iac: undefined,
   cloudProvider: undefined
 }
 Enhanced inputs: {
-  scm: 'github, gitlab',
-  languages: 'Java, Python',
+  scm: 'GitHub',
+  languages: 'Java',
   currentState: 'manual reviews',
   additionalContext: '',
   ide: '',
-  cicd: '',
+  cicd: 'Travis CI',
   containerRegistry: '',
   iac: '',
   cloudProvider: ''
 }
 🧠 AI enhancing user inputs...
 Original inputs: {
-  scm: 'github, bitbucket',
-  languages: 'java, python, go',
-  currentState: 'Scanning with veracode before code gets deployed. Scans are too slow and cause delays & developer frustration',
-  ide: '',
-  cicd: '',
-  containerRegistry: '',
-  iac: '',
-  cloudProvider: ''
+  scm: 'gitlab',
+  languages: 'java',
+  currentState: 'none',
+  ide: 'VS Code',
+  cicd: 'Github Actions',
+  containerRegistry: 'ECR',
+  iac: 'Terraform',
+  cloudProvider: 'aws'
 }
 Enhanced inputs: {
-  scm: 'github, bitbucket',
-  languages: 'Java, Python, Go',
-  currentState: 'Scanning with veracode before code gets deployed. Scans are too slow and cause delays & developer frustration',
+  scm: 'GitLab',
+  languages: 'Java',
+  currentState: 'none',
   additionalContext: '',
-  ide: '',
-  cicd: '',
-  containerRegistry: '',
-  iac: '',
+  ide: 'VS Code',
+  cicd: 'GitHub Actions',
+  containerRegistry: 'Amazon ECR',
+  iac: 'Terraform',
+  cloudProvider: 'Amazon Web Services (AWS)'
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: 'eclipse',
+  cicd: 'jenkins',
+  containerRegistry: 'ecr',
+  iac: 'arm',
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: 'Eclipse',
+  cicd: 'Jenkins',
+  containerRegistry: 'Amazon ECR',
+  iac: 'Azure Resource Manager',
   cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: 'eclipse',
+  cicd: 'jenkins',
+  containerRegistry: 'ecr',
+  iac: 'arm',
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: 'Eclipse',
+  cicd: 'Jenkins',
+  containerRegistry: 'Amazon ECR',
+  iac: 'Azure Resource Manager',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java',
+  currentState: 'manual reviews',
+  ide: 'eclipse',
+  cicd: 'jenkins',
+  containerRegistry: 'ecr',
+  iac: 'arm',
+  cloudProvider: undefined
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java',
+  currentState: 'manual reviews',
+  additionalContext: '',
+  ide: 'Eclipse',
+  cicd: 'Jenkins',
+  containerRegistry: 'Amazon ECR',
+  iac: 'Azure Resource Manager',
+  cloudProvider: ''
+}
+🧠 AI enhancing user inputs...
+Original inputs: {
+  scm: 'github',
+  languages: 'java, python',
+  currentState: 'nothing',
+  ide: 'VS Code',
+  cicd: 'Jenkins',
+  containerRegistry: 'ECR',
+  iac: 'Terraform, CloudFormation',
+  cloudProvider: 'aws'
+}
+Enhanced inputs: {
+  scm: 'GitHub',
+  languages: 'Java, Python',
+  currentState: 'nothing',
+  additionalContext: '',
+  ide: 'VS Code',
+  cicd: 'Jenkins',
+  containerRegistry: 'Amazon ECR',
+  iac: 'Terraform, CloudFormation',
+  cloudProvider: 'Amazon Web Services (AWS)'
 }

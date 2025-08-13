@@ -1593,6 +1593,44 @@
                     </div>
                 `;
             }
+            
+            // Container Registry Guides
+            if (guides.containers && !guides.containers.message) {
+                html += `
+                    <div class="resource-section">
+                        <h4>${guides.containers.name}</h4>
+                        <ul class="resource-links">
+                            ${guides.containers.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                        </ul>
+                        <div class="setup-steps">
+                            <strong>Setup Steps:</strong>
+                            <ol>
+                                ${guides.containers.setupSteps.map(step => `<li>${step}</li>`).join('')}
+                            </ol>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Infrastructure as Code (IaC) Guides
+            if (guides.iac && Array.isArray(guides.iac)) {
+                guides.iac.forEach(iacTool => {
+                    html += `
+                        <div class="resource-section">
+                            <h4>${iacTool.name}</h4>
+                            <ul class="resource-links">
+                                ${iacTool.links.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                            </ul>
+                            <div class="setup-steps">
+                                <strong>Setup Steps:</strong>
+                                <ol>
+                                    ${iacTool.setupSteps.map(step => `<li>${step}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
 
             // Snyk Broker Guides (for on-premises deployments)
             if (guides.broker) {

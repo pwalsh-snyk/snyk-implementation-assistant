@@ -400,6 +400,58 @@ class ImplementationResources {
             'Configure project settings',
             'Start scanning'
           ]
+        },
+        'eclipse': {
+          name: 'Eclipse IDE',
+          links: [
+            'https://docs.snyk.io/integrations/ide-tools/eclipse-plugin',
+            'https://docs.snyk.io/integrations/ide-tools'
+          ],
+          setupSteps: [
+            'Install Snyk Eclipse plugin from marketplace',
+            'Authenticate with Snyk token',
+            'Configure project scanning settings',
+            'Enable real-time scanning'
+          ]
+        },
+        'visual studio': {
+          name: 'Visual Studio',
+          links: [
+            'https://docs.snyk.io/integrations/ide-tools/visual-studio-extension',
+            'https://docs.snyk.io/integrations/ide-tools'
+          ],
+          setupSteps: [
+            'Install Snyk Visual Studio extension',
+            'Authenticate with Snyk',
+            'Configure solution scanning',
+            'Review vulnerability findings'
+          ]
+        },
+        'vim': {
+          name: 'Vim/Neovim',
+          links: [
+            'https://docs.snyk.io/snyk-cli',
+            'https://docs.snyk.io/integrations/ide-tools'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Vim plugin for CLI integration',
+            'Set up keybindings for scanning',
+            'Create workflow for vulnerability review'
+          ]
+        },
+        'sublime text': {
+          name: 'Sublime Text',
+          links: [
+            'https://docs.snyk.io/snyk-cli',
+            'https://docs.snyk.io/integrations/ide-tools'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Sublime Text build system',
+            'Set up Snyk scanning commands',
+            'Create custom snippets for workflows'
+          ]
         }
       },
       cicd: {
@@ -454,6 +506,58 @@ class ImplementationResources {
             'Set up build steps',
             'Configure failure conditions'
           ]
+        },
+        'circleci': {
+          name: 'CircleCI',
+          links: [
+            'https://docs.snyk.io/integrations/ci-cd-integrations/circleci-integration',
+            'https://docs.snyk.io/snyk-cli'
+          ],
+          setupSteps: [
+            'Add Snyk CLI to CircleCI config',
+            'Configure environment variables',
+            'Set up Snyk commands in workflow',
+            'Configure failure thresholds'
+          ]
+        },
+        'travis ci': {
+          name: 'Travis CI',
+          links: [
+            'https://docs.snyk.io/integrations/ci-cd-integrations/travis-ci-integration',
+            'https://docs.snyk.io/snyk-cli'
+          ],
+          setupSteps: [
+            'Install Snyk CLI in Travis config',
+            'Configure secure environment variables',
+            'Add Snyk commands to build script',
+            'Set up build failure conditions'
+          ]
+        },
+        'teamcity': {
+          name: 'TeamCity',
+          links: [
+            'https://docs.snyk.io/integrations/ci-cd-integrations/teamcity-integration',
+            'https://docs.snyk.io/snyk-cli'
+          ],
+          setupSteps: [
+            'Install Snyk CLI on build agents',
+            'Configure build parameters',
+            'Add Snyk build steps',
+            'Set up failure conditions'
+          ]
+        },
+        'bamboo': {
+          name: 'Bamboo',
+          links: [
+            'https://docs.snyk.io/snyk-cli',
+            'https://docs.snyk.io/integrations/ci-cd-integrations'
+          ],
+          setupSteps: [
+            'Install Snyk CLI on Bamboo agents',
+            'Configure global variables',
+            'Create Snyk tasks in build plan',
+            'Set up build failure logic'
+          ]
         }
       },
       containers: {
@@ -482,6 +586,71 @@ class ImplementationResources {
             'Configure namespace scanning',
             'Set up admission controller',
             'Monitor workloads'
+          ]
+        },
+        'ecr': {
+          name: 'Amazon ECR',
+          links: [
+            'https://docs.snyk.io/integrations/package-repository-integrations/amazon-elastic-container-registry-ecr-integration',
+            'https://docs.snyk.io/snyk-container'
+          ],
+          setupSteps: [
+            'Configure ECR integration in Snyk',
+            'Set up IAM permissions for Snyk',
+            'Import ECR repositories',
+            'Configure automatic scanning'
+          ]
+        },
+        'acr': {
+          name: 'Azure Container Registry',
+          links: [
+            'https://docs.snyk.io/integrations/package-repository-integrations/azure-container-registry-acr-integration',
+            'https://docs.snyk.io/snyk-container'
+          ],
+          setupSteps: [
+            'Configure ACR integration in Snyk',
+            'Set up service principal authentication',
+            'Import ACR repositories',
+            'Enable vulnerability scanning'
+          ]
+        },
+        'gcr': {
+          name: 'Google Container Registry',
+          links: [
+            'https://docs.snyk.io/integrations/package-repository-integrations/google-container-registry-gcr-integration',
+            'https://docs.snyk.io/snyk-container'
+          ],
+          setupSteps: [
+            'Configure GCR integration in Snyk',
+            'Set up service account permissions',
+            'Import GCR repositories',
+            'Configure scanning policies'
+          ]
+        },
+        'harbor': {
+          name: 'Harbor Registry',
+          links: [
+            'https://docs.snyk.io/snyk-container',
+            'https://docs.snyk.io/snyk-cli'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Configure Harbor registry access',
+            'Scan container images via CLI',
+            'Set up automated scanning workflows'
+          ]
+        },
+        'artifactory': {
+          name: 'JFrog Artifactory',
+          links: [
+            'https://docs.snyk.io/integrations/package-repository-integrations/artifactory-repository-integration',
+            'https://docs.snyk.io/snyk-container'
+          ],
+          setupSteps: [
+            'Configure Artifactory integration',
+            'Set up authentication credentials',
+            'Import Docker repositories',
+            'Enable continuous monitoring'
           ]
         }
       },
@@ -525,6 +694,58 @@ class ImplementationResources {
             'Review security issues',
             'Fix misconfigurations'
           ]
+        },
+        'arm': {
+          name: 'Azure Resource Manager (ARM)',
+          links: [
+            'https://docs.snyk.io/snyk-infrastructure-as-code/scanning-arm-templates',
+            'https://docs.snyk.io/snyk-infrastructure-as-code'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Scan ARM template files',
+            'Review Azure security best practices',
+            'Fix template misconfigurations'
+          ]
+        },
+        'helm': {
+          name: 'Helm Charts',
+          links: [
+            'https://docs.snyk.io/snyk-infrastructure-as-code/scanning-helm-charts',
+            'https://docs.snyk.io/snyk-infrastructure-as-code'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Scan Helm chart templates',
+            'Review Kubernetes security issues',
+            'Fix chart misconfigurations'
+          ]
+        },
+        'pulumi': {
+          name: 'Pulumi',
+          links: [
+            'https://docs.snyk.io/snyk-cli',
+            'https://docs.snyk.io/snyk-infrastructure-as-code'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Generate infrastructure files from Pulumi',
+            'Scan generated configurations',
+            'Fix security issues'
+          ]
+        },
+        'cdk': {
+          name: 'AWS CDK',
+          links: [
+            'https://docs.snyk.io/snyk-infrastructure-as-code',
+            'https://docs.snyk.io/snyk-cli'
+          ],
+          setupSteps: [
+            'Install Snyk CLI',
+            'Synthesize CDK to CloudFormation',
+            'Scan generated templates',
+            'Fix infrastructure issues'
+          ]
         }
       }
     };
@@ -536,7 +757,7 @@ class ImplementationResources {
       languages: this.getLanguageGuides(techStack.languages),
       ide: this.getIDEGuides(techStack.ide),
       cicd: this.getCICDGuides(techStack.cicd),
-      containers: this.getContainerGuides(),
+      containers: this.getContainerGuides(techStack.containerRegistry),
       iac: this.getIACGuides(techStack.iacFormats)
     };
 
@@ -755,8 +976,43 @@ class ImplementationResources {
     };
   }
 
-  getContainerGuides() {
-    return {
+  getContainerGuides(containerRegistry) {
+    if (!containerRegistry || containerRegistry === 'Container Registry TBD') {
+      return {
+        name: 'Container Security',
+        links: [
+          'https://docs.snyk.io/snyk-container',
+          'https://docs.snyk.io/snyk-container/getting-started-with-container-vulnerability-management',
+          'https://docs.snyk.io/snyk-container/scanning-your-container-images'
+        ],
+        setupSteps: [
+          'Install Snyk CLI',
+          'Authenticate with Snyk',
+          'Scan container images',
+          'Monitor for vulnerabilities'
+        ]
+      };
+    }
+
+    // Normalize container registry names to match resource keys
+    let registryKey = containerRegistry.toLowerCase();
+    
+    // Handle different naming variations
+    if (registryKey.includes('amazon ecr') || registryKey.includes('aws ecr')) {
+      registryKey = 'ecr';
+    } else if (registryKey.includes('azure container registry')) {
+      registryKey = 'acr';
+    } else if (registryKey.includes('google container registry')) {
+      registryKey = 'gcr';
+    } else if (registryKey.includes('harbor')) {
+      registryKey = 'harbor';
+    } else if (registryKey.includes('artifactory')) {
+      registryKey = 'artifactory';
+    }
+    
+    const registryInfo = this.resources.containers[registryKey];
+    
+    return registryInfo || {
       name: 'Container Security',
       links: [
         'https://docs.snyk.io/snyk-container',
@@ -786,7 +1042,21 @@ class ImplementationResources {
 
     const guides = [];
     for (const format of iacFormats) {
-      const formatKey = format.toLowerCase();
+      let formatKey = format.toLowerCase();
+      
+      // Handle different naming variations for IaC formats
+      if (formatKey.includes('azure resource manager') || formatKey.includes('arm template')) {
+        formatKey = 'arm';
+      } else if (formatKey.includes('aws cloudformation')) {
+        formatKey = 'cloudformation';
+      } else if (formatKey.includes('kubernetes manifest')) {
+        formatKey = 'kubernetes';
+      } else if (formatKey.includes('helm chart')) {
+        formatKey = 'helm';
+      } else if (formatKey.includes('aws cdk')) {
+        formatKey = 'cdk';
+      }
+      
       const formatInfo = this.resources.iac[formatKey];
       
       if (formatInfo) {
