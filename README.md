@@ -1,6 +1,6 @@
 # Snyk SherpAI
 
-**AI-powered Implementation Guidance Generator for Snyk Sales Engineers and Account Executives**
+**AI-powered Implementation Guidance Generator **
 
 SherpAI is your intelligent guide for generating comprehensive Snyk implementation guidance. Designed for Snyk Sales Engineers (SEs) and Account Executives (AEs), it transforms basic technical requirements into detailed, customized implementation strategies with competitive positioning and technology-specific guidance.
 
